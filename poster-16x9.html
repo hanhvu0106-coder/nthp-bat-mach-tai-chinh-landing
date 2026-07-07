@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Poster 16:9 — Bắt Mạch Tài Chính</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:#05070A;}
+  .poster{
+    width:1920px;height:1080px;position:relative;overflow:hidden;
+    display:flex;
+    background:#05070A;
+    font-family:'Inter',sans-serif;color:#fff;
+  }
+  .grain{position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,0.02) 1px,transparent 1px);background-size:3px 3px;opacity:0.5;pointer-events:none;z-index:6;}
+
+  /* ===== LEFT: PHOTO ===== */
+  .photo-col{position:relative;width:1050px;height:1080px;overflow:hidden;flex:none;}
+  .photo-col img{position:absolute;width:2069px;height:auto;left:-1018px;top:-940px;max-width:none;}
+  .photo-edge-fade{position:absolute;inset:0;background:linear-gradient(90deg, transparent 78%, #05100D 100%);}
+  .photo-bottom-fade{position:absolute;inset:0;background:linear-gradient(0deg, rgba(5,10,9,0.5) 0%, transparent 22%);}
+
+  /* ===== RIGHT: CONTENT PANEL ===== */
+  .content-col{
+    position:relative;flex:1;height:1080px;
+    background:
+      radial-gradient(ellipse 700px 500px at 100% 0%, rgba(212,175,55,0.14), transparent 60%),
+      radial-gradient(ellipse 500px 500px at 0% 100%, rgba(24,198,217,0.12), transparent 60%),
+      linear-gradient(160deg, #071A17 0%, #0A2320 55%, #061014 100%);
+    padding:52px 64px;display:flex;flex-direction:column;justify-content:center;z-index:2;
+  }
+  .ring{position:absolute;border-radius:50%;border:1px solid rgba(212,175,55,0.3);pointer-events:none;}
+
+  .top-row{position:absolute;top:44px;left:64px;right:44px;display:flex;align-items:center;justify-content:space-between;}
+  .logo-badge{background:#05070A;border:1px solid rgba(212,175,55,0.4);border-radius:12px;padding:8px 14px;display:flex;align-items:center;box-shadow:0 8px 20px rgba(0,0,0,0.5);}
+  .logo-badge img{height:36px;display:block;}
+  .kicker-badge{
+    background:rgba(212,175,55,0.12);border:1px solid rgba(212,175,55,0.5);color:#F0D584;
+    font-size:12.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;
+    padding:7px 15px;border-radius:999px;
+  }
+
+  .eyebrow-line{font-size:14px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#7EE8D8;margin-bottom:6px;}
+  .mega-title{
+    font-family:'Playfair Display',serif;font-weight:900;font-size:58px;line-height:1.02;letter-spacing:-0.01em;
+    background:linear-gradient(180deg,#FFFFFF 30%, #F0D584 100%);
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    margin-bottom:16px;
+  }
+  .headline{font-family:'Playfair Display',serif;font-style:italic;font-weight:700;font-size:21px;line-height:1.45;color:#fff;margin-bottom:20px;max-width:640px;}
+  .headline .accent{color:#F0D584;}
+
+  .info-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:22px;}
+  .info-pill{
+    background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.14);
+    -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+    border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:600;color:#fff;
+    display:flex;align-items:center;gap:6px;
+  }
+  .info-pill b{color:#F0D584;}
+
+  .bottom-row{display:flex;align-items:center;gap:26px;}
+  .qr-card{
+    flex:none;background:#fff;border-radius:14px;padding:10px;box-shadow:0 16px 40px rgba(0,0,0,0.35);
+  }
+  .qr-card img{width:152px;height:152px;display:block;border-radius:6px;object-fit:contain;}
+  .qr-caption{font-size:12px;color:rgba(255,255,255,0.6);margin-top:6px;text-align:center;font-weight:600;}
+
+  .cta-col{display:flex;flex-direction:column;gap:10px;align-items:flex-start;}
+  .cta-btn{
+    display:inline-flex;align-items:center;gap:10px;
+    background:linear-gradient(135deg,#F0D584,#D4AF37 55%,#B8892B);
+    color:#05070A;font-size:20px;font-weight:900;letter-spacing:0.01em;
+    padding:16px 38px;border-radius:999px;
+    box-shadow:0 16px 40px rgba(212,175,55,0.4), 0 0 0 1px rgba(255,255,255,0.25) inset;
+  }
+  .proof-badge{
+    font-size:13px;font-weight:700;color:#7EE8D8;
+    background:rgba(24,198,217,0.1);border:1px solid rgba(24,198,217,0.35);
+    padding:7px 16px;border-radius:999px;display:inline-flex;align-items:center;gap:6px;
+  }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="grain"></div>
+
+  <div class="photo-col">
+    <img src="images/hero-speaker.jpg" alt="Dương Ánh Ngọc">
+    <div class="photo-bottom-fade"></div>
+    <div class="photo-edge-fade"></div>
+  </div>
+
+  <div class="content-col">
+    <div class="ring" style="width:420px;height:420px;top:-160px;right:-140px;"></div>
+    <div class="ring" style="width:280px;height:280px;bottom:-100px;left:-100px;border-color:rgba(24,198,217,0.22);"></div>
+
+    <div class="top-row">
+      <div class="logo-badge"><img src="images/logo.png" alt="Nấc Thang Hạnh Phúc"></div>
+      <div class="kicker-badge">Workshop đặc biệt</div>
+    </div>
+
+    <div style="position:relative;z-index:2;">
+      <div class="eyebrow-line">Nấc Thang Hạnh Phúc</div>
+      <div class="mega-title">BẮT MẠCH<br>TÀI CHÍNH</div>
+      <div class="headline">Tiền không tự ở lại.<br>Tiền chỉ ở lại với <span class="accent">những người có hệ thống.</span></div>
+
+      <div class="info-row">
+        <span class="info-pill">📅 <b>14h00–16h00</b> · CN 26/7/2027</span>
+        <span class="info-pill">🖥️ <b>Online</b> qua Zoom</span>
+        <span class="info-pill">💰 <b>599k</b>/người · <b>799k</b>/2 vợ chồng</span>
+      </div>
+
+      <div class="bottom-row">
+        <div>
+          <div class="qr-card"><img src="images/qr-payment.jpg" alt="QR chuyển khoản"></div>
+          <div class="qr-caption">Quét mã giữ chỗ</div>
+        </div>
+        <div class="cta-col">
+          <div class="cta-btn">ĐĂNG KÝ GIỮ CHỖ</div>
+          <div class="proof-badge">✔ Hàng trăm gia đình đã tham gia</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
