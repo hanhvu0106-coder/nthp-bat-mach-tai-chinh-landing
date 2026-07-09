@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>VIP Member — Nấc Thang Hạnh Phúc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  @page { size: A3 portrait; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #071C1F;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+  }
+  .quote { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+  .page {
+    width: 900px;
+    background: #0B2A2E;
+    overflow: hidden;
+  }
+  .brandbar {
+    display: flex; align-items: center; gap: 10px;
+    padding: 22px 40px;
+    background: #071C1F;
+  }
+  .brandbar i { font-size: 20px; color: #9FE1CB; }
+  .brandbar span { font-size: 14px; letter-spacing: 0.12em; color: #9FE1CB; font-weight: 600; }
+
+  .hero { position: relative; width: 100%; height: 660px; }
+  .hero img { width: 100%; height: 100%; object-fit: cover; object-position: center 39%; display: block; }
+  .hero .overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(7,28,31,0) 52%, rgba(7,28,31,0.78) 78%, #0B2A2E 100%);
+  }
+  .hero .text { position: absolute; left: 40px; right: 40px; bottom: 36px; }
+  .hero .kicker { font-size: 15px; color: #9FE1CB; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .hero .title { font-size: 52px; font-weight: 700; line-height: 1.1; margin-bottom: 12px; }
+  .hero .sub { font-size: 18px; color: #D9F0E6; max-width: 620px; line-height: 1.5; }
+
+  .quoteline {
+    text-align: center; padding: 30px 60px 10px;
+    font-size: 24px; color: #CFEDE0; line-height: 1.6;
+  }
+
+  .stats {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 1px; background: rgba(159,225,203,0.15);
+    margin: 28px 40px 0; border-radius: 12px; overflow: hidden;
+  }
+  .stats div { background: #0B2A2E; text-align: center; padding: 20px 10px; }
+  .stats .num { font-size: 30px; font-weight: 700; color: #9FE1CB; }
+  .stats .lbl { font-size: 13px; color: #CFEDE0; margin-top: 4px; }
+
+  .section-title {
+    font-size: 22px; font-weight: 700; color: #fff;
+    padding: 44px 40px 18px;
+  }
+
+  .features { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; padding: 0 40px; }
+  .card {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(159,225,203,0.2);
+    border-radius: 14px; padding: 22px;
+  }
+  .card .badge {
+    width: 34px; height: 34px; border-radius: 50%; background: #9FE1CB; color: #04342C;
+    display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px;
+    margin-bottom: 12px;
+  }
+  .card i.tag { font-size: 22px; color: #9FE1CB; float: right; margin-top: -46px; }
+  .card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .card p { font-size: 13.5px; color: #B9DBCE; line-height: 1.6; }
+
+  .split { display: grid; grid-template-columns: repeat(2,1fr); gap: 16px; padding: 30px 40px 0; }
+  .panel { border-radius: 14px; padding: 22px; }
+  .panel.fit { background: rgba(159,225,203,0.08); }
+  .panel.commit { background: rgba(239,194,117,0.1); }
+  .panel h4 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .panel.fit h4 { color: #9FE1CB; }
+  .panel.commit h4 { color: #EFC275; }
+  .panel .row { display: flex; gap: 10px; font-size: 13.5px; color: #E4F5EE; line-height: 1.6; margin-bottom: 8px; }
+  .panel.fit .row i { color: #9FE1CB; }
+  .panel.commit .row i { color: #EFC275; }
+  .panel .row i { font-size: 16px; margin-top: 2px; flex-shrink: 0; }
+  .panel .quote { font-size: 15px; color: #F4D9A8; margin-top: 12px; padding-top: 10px; border-top: 1px solid rgba(239,194,117,0.25); }
+
+  table.summary { width: calc(100% - 80px); margin: 30px 40px 0; border-collapse: collapse; font-size: 13.5px; }
+  table.summary th { text-align: left; color: #9FE1CB; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; padding: 10px 12px; border-bottom: 1px solid rgba(159,225,203,0.25); }
+  table.summary td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); color: #E4F5EE; vertical-align: top; }
+  table.summary td:first-child { color: #fff; font-weight: 600; width: 34%; }
+
+  .pricing { margin: 34px 40px 0; border: 1px solid rgba(159,225,203,0.3); background: #0F3A3F; border-radius: 16px; padding: 34px; text-align: center; }
+  .pricing .tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(239,194,117,0.15); color: #EFC275; font-size: 12px; font-weight: 600; padding: 6px 14px; border-radius: 8px; margin-bottom: 16px; }
+  .pricing .label { font-size: 14px; color: #B9DBCE; }
+  .pricing .price { font-size: 44px; font-weight: 700; margin: 4px 0; }
+  .pricing .price small { font-size: 18px; font-weight: 500; color: #9FE1CB; }
+  .pricing .note { font-size: 13px; color: #7BC9AA; margin-bottom: 22px; }
+  .pricing .cta { display: inline-block; background: #9FE1CB; color: #04342C; font-weight: 700; font-size: 16px; padding: 14px 36px; border-radius: 10px; margin-bottom: 18px; }
+  .pricing .zalo { font-size: 15px; color: #E4F5EE; }
+  .pricing .zalo i { color: #9FE1CB; margin-right: 6px; }
+
+  .qrBox { display: inline-block; text-align: center; background: #fff; border-radius: 16px; padding: 16px; margin-top: 26px; }
+  .qrBox img { width: 168px; height: auto; border-radius: 6px; display: block; }
+  .qrBox .scan { margin-top: 10px; font-size: 11.5px; color: #0F6E56; font-weight: 600; }
+
+  .footer { text-align: center; padding: 26px 40px 40px; font-size: 12px; color: #5F958A; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="brandbar">
+    <i class="ti ti-stairs-up"></i>
+    <span>NẤC THANG HẠNH PHÚC</span>
+  </div>
+
+  <div class="hero">
+    <img src="assets/hero-speaker.jpg" alt="Cô giáo Nấc Thang Hạnh Phúc trên sân khấu">
+    <div class="overlay"></div>
+    <div class="text">
+      <div class="kicker">CHƯƠNG TRÌNH DÀNH CHO THÀNH VIÊN</div>
+      <div class="title">VIP Member</div>
+      <div class="sub">Đồng hành 3 tháng — thay đổi từ tâm thức đến xây dựng tài sản vững bền</div>
+    </div>
+  </div>
+
+  <div class="quoteline quote">"Không phải khoá học nghe rồi để đó. Là 3 tháng mình đi cùng bạn từng tuần, từng điểm kẹt, cho đến khi hệ thống thật sự chạy được."</div>
+
+  <div class="stats">
+    <div><div class="num">3</div><div class="lbl">tháng đồng hành</div></div>
+    <div><div class="num">3</div><div class="lbl">buổi coach 1-1</div></div>
+    <div><div class="num">12</div><div class="lbl">buổi zoom nhóm</div></div>
+    <div><div class="num">1</div><div class="lbl">buổi offline</div></div>
+  </div>
+
+  <div class="section-title">Quyền lợi VIP Member</div>
+  <div class="features">
+    <div class="card"><i class="tag ti ti-message-circle-2"></i><div class="badge">01</div><h3>Coach 1-1 mỗi tháng, 2 tiếng</h3><p>3 buổi trong 3 tháng, chỉ có mình và bạn. Gỡ điểm kẹt, chỉnh lộ trình, đặt mục tiêu tháng tới.</p></div>
+    <div class="card"><i class="tag ti ti-video"></i><div class="badge">02</div><h3>Zoom cả lớp, 12 buổi</h3><p>Mỗi tuần một buổi: tâm thức tài chính, hệ thống gia đình, tích sản có hệ thống.</p></div>
+    <div class="card"><i class="tag ti ti-notebook"></i><div class="badge">03</div><h3>Bộ kit Nấc Thang Hạnh Phúc</h3><p>Bản đồ tài chính, sổ tay, bảng dòng tiền, hệ thống ngân sách, thư viện chiêm nghiệm.</p></div>
+    <div class="card"><i class="tag ti ti-users-group"></i><div class="badge">04</div><h3>Cộng đồng kín VIP Member</h3><p>Cập nhật kiến thức mỗi tuần, trao đổi thật về vướng mắc, không chỉ động viên suông.</p></div>
+    <div class="card"><i class="tag ti ti-map-pin"></i><div class="badge">05</div><h3>Offline cùng cô giáo</h3><p>1 buổi gặp mặt trực tiếp tại Bắc, Trung hoặc Nam — để bạn thấy mình không đi một mình.</p></div>
+    <div class="card"><i class="tag ti ti-calendar-event"></i><div class="badge">06</div><h3>Workshop miễn phí trong 3 tháng</h3><p>Tham gia toàn bộ workshop và sự kiện, không phát sinh thêm chi phí.</p></div>
+  </div>
+
+  <div class="split">
+    <div class="panel fit">
+      <h4>Chương trình dành cho bạn nếu</h4>
+      <div class="row"><i class="ti ti-check"></i>Có thu nhập nhưng chưa giữ được tiền, chưa có tài sản</div>
+      <div class="row"><i class="ti ti-check"></i>Kiếm tiền mệt mỏi nhưng cuối tháng vẫn hòa hoặc âm</div>
+      <div class="row"><i class="ti ti-check"></i>Muốn xây hệ thống tài chính gia đình, không chỉ học lý thuyết</div>
+      <div class="row"><i class="ti ti-check"></i>Cần người đồng hành thật sự, không phải video xem rồi để đó</div>
+    </div>
+    <div class="panel commit">
+      <h4>Cam kết sau 3 tháng</h4>
+      <div class="row"><i class="ti ti-check"></i>Hiểu và kiểm soát được dòng tiền của mình</div>
+      <div class="row"><i class="ti ti-check"></i>Có hệ thống tài chính gia đình vận hành thực tế</div>
+      <div class="row"><i class="ti ti-check"></i>Bắt đầu tích sản đúng hướng, vững và chủ động</div>
+      <div class="quote">Vấn đề không nằm ở tiền — mà nằm ở tâm thức và hệ thống đứng sau nó.</div>
+    </div>
+  </div>
+
+  <table class="summary">
+    <tr><th>Quyền lợi</th><th>Chi tiết</th></tr>
+    <tr><td>Coach 1-1</td><td>3 buổi x 2 tiếng</td></tr>
+    <tr><td>Zoom cả lớp</td><td>12 buổi (mỗi tuần 1 buổi)</td></tr>
+    <tr><td>Bộ kit Nấc Thang Hạnh Phúc</td><td>Đầy đủ công cụ, sổ tay, template</td></tr>
+    <tr><td>Cộng đồng kín VIP</td><td>Truy cập trong 3 tháng</td></tr>
+    <tr><td>Workshop miễn phí</td><td>Toàn bộ sự kiện trong thời gian đồng hành</td></tr>
+    <tr><td>Buổi offline cùng cô giáo</td><td>1 buổi gặp mặt trực tiếp tại 3 miền Bắc — Trung — Nam</td></tr>
+    <tr><td>Thời gian</td><td>3 tháng</td></tr>
+  </table>
+
+  <div class="pricing">
+    <div class="tag"><i class="ti ti-users"></i>Giới hạn số lượng mỗi đợt</div>
+    <div class="label">Học phí</div>
+    <div class="price">33.333.333 <small>VNĐ</small></div>
+    <div class="note">Cho trọn vẹn hành trình 3 tháng đồng hành</div>
+    <div class="cta">Đăng ký VIP Member</div>
+    <div class="zalo"><i class="ti ti-brand-zalo"></i>Liên hệ Zalo: 0888.190392</div>
+    <div class="qrBox">
+      <img src="assets/qr-payment.jpg" alt="Mã QR chuyển khoản Techcombank — Happiness Ladder Co., Ltd">
+      <div class="scan">Quét mã để chuyển khoản</div>
+    </div>
+  </div>
+
+  <div class="footer">© Nấc Thang Hạnh Phúc — Chương trình VIP Member</div>
+</div>
+</body>
+</html>

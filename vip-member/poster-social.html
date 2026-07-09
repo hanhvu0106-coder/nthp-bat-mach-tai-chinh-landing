@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>VIP Member — Social</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { display: flex; justify-content: center; background: #333; }
+  .quote { font-family: 'Cormorant Garamond', serif; font-style: italic; }
+
+  .canvas {
+    width: 1080px; height: 1920px;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(180deg, #071C1F 0%, #0B2A2E 50%, #071C1F 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .safe { position: absolute; top: 285px; left: 0; right: 0; bottom: 270px; }
+
+  .brandbar { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 30px 0 0; }
+  .brandbar i { font-size: 24px; color: #9FE1CB; }
+  .brandbar span { font-size: 18px; letter-spacing: 0.14em; color: #9FE1CB; font-weight: 700; }
+
+  .heroWrap { margin: 18px 70px 0; border-radius: 24px; overflow: hidden; position: relative; height: 400px; }
+  .heroWrap img { width: 100%; height: 100%; object-fit: cover; object-position: center 33%; display: block; }
+  .heroWrap .overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7,28,31,0) 45%, rgba(7,28,31,0.85) 100%); }
+  .heroWrap .badge { position: absolute; top: 20px; left: 20px; background: rgba(239,194,117,0.92); color: #412402; font-weight: 700; font-size: 16px; padding: 8px 18px; border-radius: 999px; }
+
+  .headline { text-align: center; padding: 26px 60px 0; }
+  .headline .kicker { font-size: 18px; color: #9FE1CB; font-weight: 600; letter-spacing: 0.06em; margin-bottom: 8px; }
+  .headline .title { font-size: 52px; font-weight: 800; line-height: 1.12; }
+  .headline .sub { font-size: 20px; color: #CFEDE0; margin-top: 10px; line-height: 1.4; }
+
+  .bullets { display: flex; flex-direction: column; gap: 10px; margin: 20px 90px 0; }
+  .bullet { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(159,225,203,0.22); border-radius: 14px; padding: 14px 22px; }
+  .bullet i { font-size: 26px; color: #9FE1CB; flex-shrink: 0; }
+  .bullet .t { font-size: 19px; font-weight: 700; }
+  .bullet .d { font-size: 14.5px; color: #B9DBCE; margin-top: 1px; }
+
+  .pricing { margin: 28px 90px 0; text-align: center; background: #0F3A3F; border: 1px solid rgba(159,225,203,0.3); border-radius: 20px; padding: 26px; }
+  .pricing .label { font-size: 17px; color: #B9DBCE; }
+  .pricing .price { font-size: 46px; font-weight: 800; margin: 4px 0; }
+  .pricing .price small { font-size: 20px; font-weight: 600; color: #9FE1CB; }
+  .pricing .cta { display: inline-block; margin-top: 14px; background: #9FE1CB; color: #04342C; font-weight: 800; font-size: 20px; padding: 14px 42px; border-radius: 12px; }
+
+  .zalo { text-align: center; margin-top: 18px; font-size: 20px; color: #E4F5EE; }
+  .zalo i { color: #9FE1CB; margin-right: 6px; }
+</style>
+</head>
+<body>
+<div class="canvas">
+  <div class="safe">
+    <div class="brandbar"><i class="ti ti-stairs-up"></i><span>NẤC THANG HẠNH PHÚC</span></div>
+
+    <div class="heroWrap">
+      <img src="assets/hero-speaker.jpg" alt="Cô giáo Nấc Thang Hạnh Phúc">
+      <div class="overlay"></div>
+      <div class="badge">Giới hạn số lượng</div>
+    </div>
+
+    <div class="headline">
+      <div class="kicker">CHƯƠNG TRÌNH VIP MEMBER</div>
+      <div class="title">3 tháng<br>đồng hành</div>
+      <div class="sub">Từ tâm thức đến xây dựng tài sản vững bền</div>
+    </div>
+
+    <div class="bullets">
+      <div class="bullet"><i class="ti ti-message-circle-2"></i><div><div class="t">Coach 1-1, 3 buổi x 2 tiếng</div><div class="d">Gỡ điểm kẹt riêng của bạn từng tháng</div></div></div>
+      <div class="bullet"><i class="ti ti-video"></i><div><div class="t">Zoom cả lớp, 12 buổi</div><div class="d">Tâm thức — hệ thống — tích sản</div></div></div>
+      <div class="bullet"><i class="ti ti-notebook"></i><div><div class="t">Bộ kit + cộng đồng kín</div><div class="d">Công cụ, sổ tay, đồng hành mỗi tuần</div></div></div>
+    </div>
+
+    <div class="pricing">
+      <div class="label">Học phí</div>
+      <div class="price">33.333.333 <small>VNĐ</small></div>
+      <div class="cta">Đăng ký ngay</div>
+    </div>
+
+    <div class="zalo"><i class="ti ti-brand-zalo"></i>Zalo: 0888.190392</div>
+  </div>
+</div>
+</body>
+</html>
