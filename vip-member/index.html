@@ -28,8 +28,8 @@
     border-bottom: 1px solid rgba(159,225,203,0.15);
   }
   header.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 76px; }
-  .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; letter-spacing: 0.08em; color: #9FE1CB; }
-  .brand i { font-size: 22px; }
+  .brand { display: flex; align-items: center; }
+  .brand img { height: 42px; width: auto; display: block; }
   .navlinks { display: flex; gap: 30px; font-size: 14px; color: #CFEDE0; }
   .navlinks a:hover { color: #9FE1CB; }
   .btn {
@@ -102,7 +102,8 @@
   /* QUOTE */
   .quoteSection { text-align: center; padding: 60px 0; }
   .quoteSection blockquote { font-size: 28px; max-width: 780px; margin: 0 auto; line-height: 1.5; color: #E4F5EE; }
-  .quoteSection .who { margin-top: 20px; font-size: 13.5px; color: #9FE1CB; font-weight: 600; letter-spacing: 0.05em; }
+  .quoteSection .who { margin-top: 26px; display: flex; justify-content: center; }
+  .quoteSection .who img { height: 34px; width: auto; opacity: 0.95; }
 
   /* SPLIT */
   .splitSection .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
@@ -157,6 +158,7 @@
   .finalCta p { color: #B9DBCE; font-size: 15.5px; margin-bottom: 30px; }
 
   footer { border-top: 1px solid rgba(159,225,203,0.12); padding: 34px 0; text-align: center; font-size: 13px; color: #5F958A; }
+  footer img { height: 34px; width: auto; margin: 0 auto 14px; }
 
   @media (max-width: 880px) {
     .hero .wrap { grid-template-columns: 1fr; }
@@ -173,7 +175,7 @@
 
 <header class="nav">
   <div class="wrap">
-    <div class="brand"><i class="ti ti-stairs-up"></i>NẤC THANG HẠNH PHÚC</div>
+    <a href="#" class="brand"><img src="assets/logo.png" alt="Nấc Thang Hạnh Phúc"></a>
     <nav class="navlinks">
       <a href="#quyenloi">Quyền lợi</a>
       <a href="#phuhop">Dành cho ai</a>
@@ -267,7 +269,7 @@
 <section class="quoteSection">
   <div class="wrap">
     <blockquote class="quote">"Vấn đề không nằm ở tiền — mà nằm ở tâm thức và hệ thống đứng sau nó."</blockquote>
-    <div class="who">NẤC THANG HẠNH PHÚC</div>
+    <div class="who"><img src="assets/logo.png" alt="Nấc Thang Hạnh Phúc"></div>
   </div>
 </section>
 
@@ -342,6 +344,7 @@
 </section>
 
 <footer>
+  <img src="assets/logo.png" alt="Nấc Thang Hạnh Phúc">
   © Nấc Thang Hạnh Phúc — Chương trình VIP Member · Liên hệ Zalo 0888.190392
 </footer>
 
