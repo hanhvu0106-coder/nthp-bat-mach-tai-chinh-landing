@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cảm ơn bạn — Kiến Tạo Hạnh Phúc Toàn Phần</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background: #071C1F;
+    color: #fff;
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+  }
+  a { color: inherit; text-decoration: none; }
+  .card {
+    max-width: 560px; width: 100%; text-align: center;
+    background: #0B2A2E; border: 1px solid rgba(159,225,203,0.25); border-radius: 24px;
+    padding: 52px 40px;
+  }
+  .card img.logo { height: 40px; width: auto; margin: 0 auto 26px; }
+  .check {
+    width: 68px; height: 68px; border-radius: 50%; background: rgba(159,225,203,0.12);
+    border: 1px solid rgba(159,225,203,0.35); color: #9FE1CB; font-size: 30px;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;
+  }
+  h1 { font-size: 26px; font-weight: 800; margin-bottom: 12px; }
+  p { font-size: 15px; color: #B9DBCE; line-height: 1.7; margin-bottom: 6px; }
+  .code { display: inline-block; margin: 18px 0 26px; background: rgba(159,225,203,0.08); border: 1px solid rgba(159,225,203,0.25); border-radius: 10px; padding: 10px 20px; font-size: 15px; color: #9FE1CB; font-weight: 700; letter-spacing: 0.04em; }
+  .actions { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+  .btn {
+    display: inline-block; background: #9FE1CB; color: #04342C; font-weight: 700;
+    padding: 15px 28px; border-radius: 10px; font-size: 15px; border: none; cursor: pointer;
+  }
+  .btn.ghost { background: transparent; border: 1px solid rgba(159,225,203,0.5); color: #9FE1CB; }
+</style>
+</head>
+<body>
+<div class="card">
+  <img class="logo" src="assets/logo.png" alt="Nấc Thang Hạnh Phúc">
+  <div class="check"><i class="ti ti-check"></i></div>
+  <h1>Cảm ơn bạn.</h1>
+  <p>EKIP Nấc Thang Hạnh Phúc sẽ xác nhận đăng ký của bạn trong thời gian sớm nhất.</p>
+  <div class="code" id="codeBox" style="display:none;">Mã đăng ký: <span id="codeValue"></span></div>
+  <div class="actions">
+    <!-- TODO: thay bằng link nhóm Zalo thật (hiện đang trỏ tạm về Zalo cá nhân của EKIP) -->
+    <a class="btn" href="https://zalo.me/0888190392" data-track="zalo">Vào nhóm Zalo</a>
+    <a class="btn ghost" href="tel:0888190392" data-track="hotline">Liên hệ Hotline 0888.190392</a>
+    <a class="btn ghost" href="index.html">Quay lại website</a>
+  </div>
+</div>
+<script>
+  // sessionStorage là nguồn chính (đặt bởi landing.html ngay trước khi redirect sang đây),
+  // vì một số static host/dev server rewrite URL sạch có thể làm rớt query string ?code=.
+  var params = new URLSearchParams(window.location.search);
+  var code = sessionStorage.getItem('kthp_last_code') || params.get('code');
+  if (code) {
+    document.getElementById('codeValue').textContent = code;
+    document.getElementById('codeBox').style.display = 'inline-block';
+  }
+</script>
+</body>
+</html>

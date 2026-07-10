@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VIP Member — Nấc Thang Hạnh Phúc</title>
+<title>Kiến Tạo Hạnh Phúc Toàn Phần — Nấc Thang Hạnh Phúc</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Cormorant+Garamond:ital@1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
@@ -89,6 +89,11 @@
   .sectionHead h2 { font-size: 34px; font-weight: 800; margin-bottom: 14px; }
   .sectionHead p { color: #B9DBCE; font-size: 15.5px; line-height: 1.7; }
 
+  /* STORY */
+  .storyLines { max-width: 700px; margin: 0 auto; text-align: center; }
+  .storyLines p { font-size: 21px; line-height: 1.6; color: #E4F5EE; margin-bottom: 18px; }
+  .storyClose { max-width: 680px; margin: 30px auto 0; text-align: center; color: #B9DBCE; font-size: 15.5px; line-height: 1.7; }
+
   /* FEATURES */
   .features { display: grid; grid-template-columns: repeat(3,1fr); gap: 22px; }
   .fcard { background: rgba(255,255,255,0.035); border: 1px solid rgba(159,225,203,0.16); border-radius: 16px; padding: 28px; transition: border-color .2s; }
@@ -118,6 +123,8 @@
   .panel.fit .row i { color: #9FE1CB; }
   .panel.commit .row i { color: #EFC275; }
   .panel .foot { margin-top: 18px; padding-top: 16px; border-top: 1px solid rgba(239,194,117,0.25); font-size: 16px; color: #F4D9A8; }
+  .commitWide { max-width: 760px; margin: 0 auto; }
+  .commitWide .foot { border-top-color: rgba(159,225,203,0.25); color: #CFEDE0; }
 
   /* TABLE */
   .tableSection table { width: 100%; border-collapse: collapse; }
@@ -129,11 +136,10 @@
   /* PRICING */
   .pricing { background: linear-gradient(180deg, rgba(159,225,203,0.06), transparent); }
   .priceCard {
-    max-width: 900px; margin: 0 auto;
+    max-width: 520px; margin: 0 auto;
     background: #0F3A3F; border: 1px solid rgba(159,225,203,0.3); border-radius: 24px; padding: 48px;
-    display: grid; grid-template-columns: 1fr auto; gap: 44px; align-items: center;
   }
-  .priceCard .info { text-align: left; }
+  .priceCard .info { text-align: center; }
   .priceCard .tag { display: inline-flex; align-items: center; gap: 6px; background: rgba(239,194,117,0.15); color: #EFC275; font-size: 12.5px; font-weight: 600; padding: 7px 16px; border-radius: 999px; margin-bottom: 20px; }
   .priceCard .label { font-size: 15px; color: #B9DBCE; }
   .priceCard .price { font-size: 52px; font-weight: 800; margin: 6px 0 4px; }
@@ -146,12 +152,6 @@
   .qrBox img { width: 178px; height: auto; border-radius: 6px; display: block; }
   .qrBox .scan { margin-top: 10px; font-size: 12px; color: #0F6E56; font-weight: 600; }
 
-  @media (max-width: 700px) {
-    .priceCard { grid-template-columns: 1fr; text-align: center; }
-    .priceCard .info { text-align: center; }
-    .qrBox { margin: 0 auto; }
-  }
-
   /* FOOTER CTA */
   .finalCta { text-align: center; padding: 90px 0; }
   .finalCta h2 { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
@@ -159,6 +159,91 @@
 
   footer { border-top: 1px solid rgba(159,225,203,0.12); padding: 34px 0; text-align: center; font-size: 13px; color: #5F958A; }
   footer img { height: 34px; width: auto; margin: 0 auto 14px; }
+
+  /* JOIN SECTION */
+  .joinSection { padding-top: 0; }
+
+  /* REGISTRATION MODAL */
+  .modalOverlay {
+    display: none; position: fixed; inset: 0; z-index: 200;
+    background: rgba(4,14,16,0.72); backdrop-filter: blur(3px);
+    align-items: center; justify-content: center; padding: 24px;
+    overflow-y: auto;
+  }
+  .modalOverlay.open { display: flex; }
+  .modalCard {
+    position: relative; width: 100%; max-width: 560px; max-height: 90vh; overflow-y: auto;
+    background: #0B2A2E; border: 1px solid rgba(159,225,203,0.25); border-radius: 24px;
+    padding: 40px; margin: auto;
+  }
+  .modalClose {
+    position: absolute; top: 18px; right: 18px; background: rgba(255,255,255,0.06);
+    border: none; color: #CFEDE0; width: 34px; height: 34px; border-radius: 50%;
+    cursor: pointer; font-size: 16px; display: flex; align-items: center; justify-content: center;
+  }
+  .modalStep-head { margin-bottom: 24px; }
+  .modalStep-head .eyebrow.small { font-size: 12px; color: #9FE1CB; font-weight: 700; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .modalStep-head h3 { font-size: 22px; font-weight: 800; }
+  .modalStep-head p { font-size: 14px; color: #B9DBCE; margin-top: 8px; line-height: 1.6; }
+
+  .field { margin-bottom: 16px; }
+  .field label { display: block; font-size: 13px; color: #CFEDE0; margin-bottom: 6px; font-weight: 600; }
+  .field .req { color: #EFC275; }
+  .field input[type="text"], .field input[type="tel"], .field input[type="email"], .field select, .field textarea {
+    width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(159,225,203,0.25);
+    border-radius: 10px; padding: 12px 14px; color: #fff; font-size: 14.5px; font-family: 'Montserrat', sans-serif;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: #9FE1CB; }
+  .field select option { background: #0B2A2E; color: #fff; }
+  .field textarea { min-height: 70px; resize: vertical; }
+  .fieldRow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .checkGroup { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .checkItem { display: flex; align-items: center; gap: 8px; font-size: 13.5px; color: #E4F5EE; }
+  .checkItem input { accent-color: #9FE1CB; width: 16px; height: 16px; }
+
+  .regCodeBox { background: rgba(159,225,203,0.08); border: 1px solid rgba(159,225,203,0.25); border-radius: 14px; padding: 18px; text-align: center; margin-bottom: 20px; }
+  .regCodeBox .regCodeLabel { font-size: 13px; color: #B9DBCE; margin-bottom: 6px; }
+  .regCodeBox .regCodeValue { font-size: 30px; font-weight: 800; color: #9FE1CB; letter-spacing: 0.04em; margin-bottom: 12px; }
+
+  .paymentGrid { display: grid; grid-template-columns: auto 1fr; gap: 20px; align-items: start; margin-bottom: 22px; }
+  .paymentGrid .qrBox { width: 150px; }
+  .paymentGrid .qrBox img { width: 118px; }
+  .bankInfo { font-size: 14px; color: #E4F5EE; line-height: 2; }
+  .bankInfo b { color: #9FE1CB; }
+
+  .uploadBox {
+    border: 1px dashed rgba(159,225,203,0.35); border-radius: 12px; padding: 20px;
+    text-align: center; color: #B9DBCE; font-size: 13.5px; margin-bottom: 16px;
+  }
+  .uploadBox input[type="file"] { margin-top: 10px; color: #CFEDE0; font-size: 13px; }
+  .uploadPreview { max-height: 160px; border-radius: 10px; margin-top: 12px; display: none; }
+
+  /* SOCIAL PROOF TOAST */
+  .proofToast {
+    position: fixed; left: 20px; bottom: 20px; z-index: 120;
+    display: flex; align-items: center; gap: 12px;
+    background: #fff; color: #0B2A2E; border-radius: 14px;
+    padding: 14px 16px; max-width: 320px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.28);
+    cursor: pointer; border: none; text-align: left;
+    transform: translateY(140%); opacity: 0; transition: transform .45s ease, opacity .45s ease;
+  }
+  .proofToast.show { transform: translateY(0); opacity: 1; }
+  .proofToast .avatar {
+    flex-shrink: 0; width: 40px; height: 40px; border-radius: 50%;
+    background: #9FE1CB; color: #04342C; font-weight: 800; font-size: 16px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .proofToast .body { flex: 1; min-width: 0; }
+  .proofToast .name { font-size: 13.5px; font-weight: 700; color: #0B2A2E; }
+  .proofToast .name b { color: #0F6E56; }
+  .proofToast .detail { font-size: 12.5px; color: #5F5E5A; margin-top: 2px; line-height: 1.4; }
+  .proofToast .time { font-size: 11.5px; color: #8FBCAE; margin-top: 3px; }
+  .proofToast .closeToast {
+    position: absolute; top: -8px; right: -8px; width: 22px; height: 22px; border-radius: 50%;
+    background: #0B2A2E; color: #CFEDE0; border: 1px solid rgba(159,225,203,0.4);
+    font-size: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer;
+  }
 
   @media (max-width: 880px) {
     .hero .wrap { grid-template-columns: 1fr; }
@@ -168,6 +253,11 @@
     .splitSection .wrap { grid-template-columns: 1fr; }
     .stats .wrap { grid-template-columns: repeat(2,1fr); }
     .stats .item:nth-child(2) { border-right: none; }
+    .modalCard { padding: 28px 22px; }
+    .fieldRow, .checkGroup { grid-template-columns: 1fr; }
+    .paymentGrid { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+    .bankInfo { text-align: left; }
+    .proofToast { left: 12px; right: 12px; bottom: 12px; max-width: none; }
   }
 </style>
 </head>
@@ -181,7 +271,7 @@
       <a href="#phuhop">Dành cho ai</a>
       <a href="#hocphi">Học phí</a>
     </nav>
-    <a href="#hocphi" class="btn">Đăng ký ngay</a>
+    <button class="btn" data-track="dang-ky" onclick="openRegModal('nav')">Đăng ký ngay</button>
   </div>
 </header>
 
@@ -189,15 +279,15 @@
   <div class="wrap">
     <div>
       <div class="kicker"><i class="ti ti-users"></i>Giới hạn số lượng mỗi đợt</div>
-      <h1>VIP Member —<br>3 tháng <span>đồng hành</span></h1>
-      <p class="lead">Không phải khoá học nghe rồi để đó. Là 3 tháng mình đi cùng bạn từng tuần, từng điểm kẹt, cho đến khi hệ thống tài chính thật sự chạy được — từ tâm thức đến xây dựng tài sản vững bền.</p>
+      <h1>Kiến Tạo Hạnh Phúc Toàn Phần —<br>6 tháng <span>đồng hành chuyên sâu</span></h1>
+      <p class="lead">Đồng hành cùng bạn trên hành trình 6 tháng để bạn ngừng kiếm tiền trong mệt mỏi, có hệ thống tài chính bền vững, tích sản đều đặn và tạo ra tài sản đúng hướng.</p>
       <div class="ctarow">
-        <a href="#hocphi" class="btn lg">Đăng ký VIP Member</a>
+        <button class="btn lg" data-track="dang-ky" onclick="openRegModal('hero')">Đăng ký ngay</button>
         <a href="#quyenloi" class="btn ghost lg">Xem quyền lợi</a>
       </div>
       <div class="trust">
-        <div><i class="ti ti-message-circle-2"></i>3 buổi coach 1-1</div>
-        <div><i class="ti ti-video"></i>12 buổi zoom nhóm</div>
+        <div><i class="ti ti-message-circle-2"></i>6 buổi coach 1-1</div>
+        <div><i class="ti ti-video"></i>24 buổi zoom nhóm</div>
         <div><i class="ti ti-map-pin"></i>1 buổi offline</div>
       </div>
     </div>
@@ -205,62 +295,78 @@
       <div class="frame">
         <img src="assets/hero-speaker.jpg" alt="Cô giáo Nấc Thang Hạnh Phúc trên sân khấu">
         <div class="overlay"></div>
-        <div class="badge">VIP Member</div>
+        <div class="badge">Kiến Tạo Hạnh Phúc Toàn Phần</div>
         <div class="card">
           <div class="t">Đồng hành thật sự, không phải khoá học để đó</div>
-          <div class="d">Từng tuần, từng điểm kẹt, cùng bạn đi đến khi hệ thống chạy được</div>
+          <div class="d">6 tháng, từng điểm kẹt, cùng bạn đi đến khi hệ thống chạy được</div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<section class="storySection">
+  <div class="wrap">
+    <div class="sectionHead">
+      <div class="eyebrow">CÂU CHUYỆN</div>
+      <h2>6 tháng này dành cho điều gì?</h2>
+    </div>
+    <div class="storyLines quote">
+      <p>Có những người kiếm được tiền. Nhưng cuối tháng vẫn không biết tiền đi đâu.</p>
+      <p>Có những gia đình thu nhập không thấp. Nhưng lúc nào cũng thấy thiếu, thấy lo, thấy chưa thật sự an toàn.</p>
+      <p>Có người rất muốn đầu tư. Nhưng nền tảng giữ tiền, quản tiền và hiểu tài sản vẫn chưa vững.</p>
+      <p>Có người đã học rất nhiều. Nhưng khi quay về đời sống thật, mọi thứ vẫn rối như cũ.</p>
+    </div>
+    <p class="storyClose">Kiến Tạo Hạnh Phúc Toàn Phần được tạo ra cho những người không muốn chỉ học thêm kiến thức tài chính — mà muốn có người đồng hành để giúp bạn nhìn lại tiền bạc, gia đình, thói quen sống và lộ trình tích sản của chính mình.</p>
+  </div>
+</section>
+
 <div class="stats">
   <div class="wrap">
-    <div class="item"><div class="num">3</div><div class="lbl">tháng đồng hành</div></div>
-    <div class="item"><div class="num">3</div><div class="lbl">buổi coach 1-1</div></div>
-    <div class="item"><div class="num">12</div><div class="lbl">buổi zoom nhóm</div></div>
-    <div class="item"><div class="num">1</div><div class="lbl">buổi offline 3 miền</div></div>
+    <div class="item"><div class="num">6</div><div class="lbl">tháng đồng hành</div></div>
+    <div class="item"><div class="num">6</div><div class="lbl">buổi coach 1-1</div></div>
+    <div class="item"><div class="num">24</div><div class="lbl">buổi zoom nhóm</div></div>
+    <div class="item"><div class="num">1</div><div class="lbl">buổi offline</div></div>
   </div>
 </div>
 
 <section id="quyenloi">
   <div class="wrap">
     <div class="sectionHead">
-      <div class="eyebrow">QUYỀN LỢI VIP MEMBER</div>
-      <h2>6 điều bạn nhận được trong 3 tháng</h2>
-      <p>Mỗi phần đều được thiết kế riêng cho hành trình đồng hành, không phải nội dung có sẵn phát lại.</p>
+      <div class="eyebrow">QUYỀN LỢI KHI THAM GIA</div>
+      <h2>Sau 6 tháng, bạn không chỉ có thêm kiến thức</h2>
+      <p>Bạn sẽ có một hệ thống rõ ràng hơn cho đời sống tài chính của mình — biết tiền đến từ đâu, đi về đâu, và có lộ trình tích sản phù hợp với chính mình.</p>
     </div>
     <div class="features">
       <div class="fcard">
         <div class="top"><div class="num">01</div><i class="tag ti ti-message-circle-2"></i></div>
-        <h3>Coach 1-1 mỗi tháng, 2 tiếng</h3>
-        <p>3 buổi trong 3 tháng, chỉ có mình và bạn. Gỡ điểm kẹt, chỉnh lộ trình, đặt mục tiêu tháng tới.</p>
+        <h3>Coach 1:1 mỗi tháng cùng cô giáo</h3>
+        <p>6 buổi trong 6 tháng, mỗi buổi 2 tiếng. Không nói lý thuyết chung, không đưa công thức áp cho tất cả mọi người — mỗi buổi là một lần bạn được nhìn lại mình rõ hơn.</p>
       </div>
       <div class="fcard">
         <div class="top"><div class="num">02</div><i class="tag ti ti-video"></i></div>
-        <h3>Zoom cả lớp, 12 buổi</h3>
-        <p>Mỗi tuần một buổi: tâm thức tài chính, hệ thống gia đình, tích sản có hệ thống.</p>
+        <h3>Zoom cả lớp mỗi tuần</h3>
+        <p>24 buổi trong 6 tháng. Cả lớp cùng học, cùng hỏi, cùng gỡ vướng và cùng nhìn lại hành trình tài chính của mình — mỗi buổi là một lần soi chiếu, thực hành và điều chỉnh.</p>
       </div>
       <div class="fcard">
         <div class="top"><div class="num">03</div><i class="tag ti ti-notebook"></i></div>
-        <h3>Bộ kit Nấc Thang Hạnh Phúc</h3>
-        <p>Bản đồ tài chính, sổ tay, bảng dòng tiền, hệ thống ngân sách, thư viện chiêm nghiệm.</p>
+        <h3>Bộ Kit Kiến Tạo Hạnh Phúc Toàn Phần</h3>
+        <p>Bản đồ tài chính cá nhân hóa, sổ tay Nấc Thang Hạnh Phúc, bảng dòng tiền, hệ thống ngân sách, template quỹ dự phòng, bảng mục tiêu tích sản và vật phẩm thương hiệu (áo đồng phục, bình nước, ticker...).</p>
       </div>
       <div class="fcard">
         <div class="top"><div class="num">04</div><i class="tag ti ti-users-group"></i></div>
-        <h3>Cộng đồng kín VIP Member</h3>
-        <p>Cập nhật kiến thức mỗi tuần, trao đổi thật về vướng mắc, không chỉ động viên suông.</p>
+        <h3>Cộng đồng kín Kiến Tạo Hạnh Phúc Toàn Phần</h3>
+        <p>Nhóm riêng dành cho thành viên trong hành trình 6 tháng — cô giáo cập nhật kiến thức, chia sẻ góc nhìn thị trường, trả lời câu hỏi thực tế. Không phải nhóm động viên nhau cho vui.</p>
       </div>
       <div class="fcard">
         <div class="top"><div class="num">05</div><i class="tag ti ti-map-pin"></i></div>
-        <h3>Offline cùng cô giáo</h3>
-        <p>1 buổi gặp mặt trực tiếp tại Bắc, Trung hoặc Nam — để bạn thấy mình không đi một mình.</p>
+        <h3>Gặp mặt offline cùng cô giáo</h3>
+        <p>1 buổi gặp mặt trực tiếp trong hành trình — để cả nhóm ngồi lại ngoài đời thật, chia sẻ hành trình và cảm nhận rõ rằng mình không đi một mình.</p>
       </div>
       <div class="fcard">
         <div class="top"><div class="num">06</div><i class="tag ti ti-calendar-event"></i></div>
-        <h3>Workshop miễn phí trong 3 tháng</h3>
-        <p>Tham gia toàn bộ workshop và sự kiện, không phát sinh thêm chi phí.</p>
+        <h3>Tham gia miễn phí workshop trong 6 tháng</h3>
+        <p>Học liên tục, cập nhật thêm góc nhìn mới và mở rộng hiểu biết về tài chính, gia đình, tài sản và đời sống bình an — không phát sinh thêm chi phí.</p>
       </div>
     </div>
   </div>
@@ -268,7 +374,7 @@
 
 <section class="quoteSection">
   <div class="wrap">
-    <blockquote class="quote">"Vấn đề không nằm ở tiền — mà nằm ở tâm thức và hệ thống đứng sau nó."</blockquote>
+    <blockquote class="quote">"Hạnh phúc toàn phần không chỉ nằm ở cảm xúc. Nó cần một nền tài chính đủ vững, một hệ thống đủ rõ và một tâm thức đủ bình an."</blockquote>
     <div class="who"><img src="assets/logo.png" alt="Nấc Thang Hạnh Phúc"></div>
   </div>
 </section>
@@ -277,17 +383,43 @@
   <div class="wrap">
     <div class="panel fit">
       <h3>Chương trình dành cho bạn nếu</h3>
-      <div class="row"><i class="ti ti-check"></i>Đang có thu nhập nhưng chưa giữ được tiền và chưa có tài sản thật sự</div>
-      <div class="row"><i class="ti ti-check"></i>Cảm thấy kiếm tiền mệt mỏi nhưng cuối tháng vẫn hoà hoặc âm</div>
-      <div class="row"><i class="ti ti-check"></i>Muốn xây hệ thống tài chính gia đình, không chỉ học lý thuyết</div>
-      <div class="row"><i class="ti ti-check"></i>Cần người đồng hành thật sự trong 3 tháng, không phải khoá học xem video rồi để đó</div>
+      <div class="row"><i class="ti ti-check"></i>Bạn đang có thu nhập nhưng vẫn chưa giữ được tiền</div>
+      <div class="row"><i class="ti ti-check"></i>Bạn thấy mình kiếm tiền mệt nhưng cuối tháng vẫn không dư</div>
+      <div class="row"><i class="ti ti-check"></i>Bạn muốn xây hệ thống tài chính gia đình nhưng chưa biết bắt đầu từ đâu</div>
+      <div class="row"><i class="ti ti-check"></i>Bạn từng học về tiền, đầu tư, tài chính nhưng vẫn chưa áp dụng được vào đời sống thật</div>
+      <div class="row"><i class="ti ti-check"></i>Bạn muốn tích sản nhưng nền tảng dòng tiền chưa vững</div>
+      <div class="row"><i class="ti ti-check"></i>Bạn muốn bớt căng thẳng khi nói về tiền trong gia đình</div>
+      <div class="row"><i class="ti ti-check"></i>Bạn cần người đồng hành đủ sâu trong một khoảng thời gian đủ dài</div>
+      <div class="row"><i class="ti ti-check"></i>Bạn không muốn thêm một khóa học xem xong rồi để đó</div>
     </div>
     <div class="panel commit">
-      <h3>Cam kết sau 3 tháng</h3>
-      <div class="row"><i class="ti ti-check"></i>Hiểu và kiểm soát được dòng tiền của mình</div>
-      <div class="row"><i class="ti ti-check"></i>Có hệ thống tài chính gia đình vận hành thực tế</div>
-      <div class="row"><i class="ti ti-check"></i>Bắt đầu tích sản đúng hướng — vững, bền vững, chủ động</div>
-      <div class="foot quote">Vấn đề không nằm ở tiền — mà nằm ở tâm thức và hệ thống đứng sau nó.</div>
+      <h3>Chương trình không dành cho bạn nếu</h3>
+      <div class="row"><i class="ti ti-x"></i>Bạn chỉ muốn tìm một kênh đầu tư sinh lời nhanh</div>
+      <div class="row"><i class="ti ti-x"></i>Bạn không sẵn sàng nhìn lại thói quen tiền bạc của mình</div>
+      <div class="row"><i class="ti ti-x"></i>Bạn chỉ muốn nghe kiến thức nhưng không muốn thực hành</div>
+      <div class="row"><i class="ti ti-x"></i>Bạn muốn kết quả ngay trong vài ngày</div>
+      <div class="row"><i class="ti ti-x"></i>Bạn không muốn cam kết đi cùng hành trình trong 6 tháng</div>
+      <div class="foot">Chương trình này không hứa làm giàu nhanh. Chương trình này giúp bạn xây nền tài chính vững hơn, thật hơn và phù hợp hơn với đời sống của mình.</div>
+    </div>
+  </div>
+</section>
+
+<section class="commitSection">
+  <div class="wrap">
+    <div class="sectionHead">
+      <div class="eyebrow">SAU 6 THÁNG</div>
+      <h2>Cam kết sau 6 tháng</h2>
+      <p>Sau 6 tháng đồng hành, bạn sẽ không còn nhìn tiền như một thứ khiến mình căng thẳng, né tránh hoặc mệt mỏi như trước. Bạn sẽ có:</p>
+    </div>
+    <div class="panel fit commitWide">
+      <div class="row"><i class="ti ti-check"></i>Một bức tranh rõ hơn về tài chính cá nhân và gia đình</div>
+      <div class="row"><i class="ti ti-check"></i>Một hệ thống theo dõi dòng tiền có thể vận hành mỗi tháng</div>
+      <div class="row"><i class="ti ti-check"></i>Một ngân sách phù hợp với đời sống thật</div>
+      <div class="row"><i class="ti ti-check"></i>Một quỹ dự phòng được thiết lập từng bước</div>
+      <div class="row"><i class="ti ti-check"></i>Một kế hoạch tích sản phù hợp với tình huống của mình</div>
+      <div class="row"><i class="ti ti-check"></i>Một lộ trình tài chính 1 năm tiếp theo</div>
+      <div class="row"><i class="ti ti-check"></i>Một tâm thế bình an hơn khi ra quyết định với tiền</div>
+      <div class="foot quote">Vấn đề không chỉ nằm ở việc kiếm được bao nhiêu tiền. Mà nằm ở cách mình hiểu tiền, giữ tiền, dùng tiền và để tiền phục vụ cho một đời sống hạnh phúc hơn.</div>
     </div>
   </div>
 </section>
@@ -296,17 +428,17 @@
   <div class="wrap">
     <div class="sectionHead">
       <div class="eyebrow">TÓM TẮT</div>
-      <h2>Toàn bộ quyền lợi VIP Member</h2>
+      <h2>Toàn bộ quyền lợi Kiến Tạo Hạnh Phúc Toàn Phần</h2>
     </div>
     <table>
       <tr><th>Quyền lợi</th><th>Chi tiết</th></tr>
-      <tr><td>Coach 1-1</td><td>3 buổi x 2 tiếng</td></tr>
-      <tr><td>Zoom cả lớp</td><td>12 buổi (mỗi tuần 1 buổi)</td></tr>
-      <tr><td>Bộ kit Nấc Thang Hạnh Phúc</td><td>Đầy đủ công cụ, sổ tay, template</td></tr>
-      <tr><td>Cộng đồng kín VIP</td><td>Truy cập trong 3 tháng</td></tr>
+      <tr><td>Coach 1:1</td><td>6 buổi x 2 tiếng</td></tr>
+      <tr><td>Zoom cả lớp</td><td>24 buổi (mỗi tuần 1 buổi)</td></tr>
+      <tr><td>Bộ Kit Kiến Tạo Hạnh Phúc Toàn Phần</td><td>Công cụ thực hành + vật phẩm thương hiệu độc quyền</td></tr>
+      <tr><td>Cộng đồng kín</td><td>Truy cập trong suốt 6 tháng</td></tr>
       <tr><td>Workshop miễn phí</td><td>Toàn bộ sự kiện trong thời gian đồng hành</td></tr>
-      <tr><td>Buổi offline cùng cô giáo</td><td>1 buổi gặp mặt trực tiếp tại 3 miền Bắc — Trung — Nam</td></tr>
-      <tr><td>Thời gian</td><td>3 tháng</td></tr>
+      <tr><td>Buổi offline cùng cô giáo</td><td>1 buổi gặp mặt trực tiếp trong hành trình</td></tr>
+      <tr><td>Thời gian</td><td>6 tháng</td></tr>
     </table>
   </div>
 </section>
@@ -315,38 +447,414 @@
   <div class="wrap">
     <div class="sectionHead">
       <div class="eyebrow">ĐĂNG KÝ</div>
-      <h2>Học phí VIP Member</h2>
-      <p>Nhóm giới hạn số lượng mỗi đợt — đăng ký sớm để giữ chỗ.</p>
+      <h2>Học phí Kiến Tạo Hạnh Phúc Toàn Phần</h2>
+      <p>Đây không phải chi phí cho vài buổi học — đây là khoản đầu tư cho 6 tháng có người đi cùng bạn, nhìn cùng bạn vào tiền bạc, hệ thống, tài sản và sự bình an trong gia đình.</p>
     </div>
     <div class="priceCard">
       <div class="info">
         <div class="tag"><i class="ti ti-users"></i>Giới hạn số lượng mỗi đợt</div>
         <div class="label">Học phí</div>
         <div class="price">33.333.333 <small>VNĐ</small></div>
-        <div class="note">Cho trọn vẹn hành trình 3 tháng đồng hành</div>
-        <a href="https://zalo.me/0888190392" class="btn lg">Đăng ký VIP Member</a>
-        <div class="zalo"><i class="ti ti-brand-zalo"></i>Liên hệ Zalo: 0888.190392</div>
+        <div class="note">Cho trọn vẹn hành trình 6 tháng đồng hành chuyên sâu</div>
+        <button class="btn lg" data-track="dang-ky" onclick="openRegModal('pricing')">Đăng ký ngay</button>
+        <a href="https://zalo.me/0888190392" class="zalo" data-track="zalo" style="display:inline-block;"><i class="ti ti-brand-zalo"></i>Liên hệ Zalo: 0888.190392</a>
       </div>
-      <div class="qrBox">
-        <img src="assets/qr-payment.jpg" alt="Mã QR chuyển khoản Techcombank — Happiness Ladder Co., Ltd">
-        <div class="scan">Quét mã để chuyển khoản</div>
-      </div>
+    </div>
+  </div>
+</section>
+
+<section class="joinSection">
+  <div class="wrap">
+    <div class="sectionHead">
+      <div class="eyebrow">CÁCH THAM GIA</div>
+      <h2>Slot có hạn mỗi khóa</h2>
+      <p>Để đảm bảo chất lượng đồng hành, chương trình chỉ nhận số lượng thành viên giới hạn mỗi khóa. Trước khi tham gia, bạn sẽ có một buổi trao đổi ngắn để xem chương trình có phù hợp với tình huống tài chính hiện tại của mình hay không.</p>
+    </div>
+    <div style="text-align:center;">
+      <button class="btn lg" data-track="tu-van" onclick="openRegModal('cach-tham-gia')">Đăng ký tư vấn chương trình</button>
     </div>
   </div>
 </section>
 
 <section class="finalCta">
   <div class="wrap">
-    <h2>3 tháng tới, bạn có thể vẫn như cũ — hoặc bắt đầu khác đi</h2>
-    <p>Vấn đề không nằm ở tiền, mà nằm ở tâm thức và hệ thống đứng sau nó. VIP Member là nơi bạn không phải tự xoay xở một mình.</p>
-    <a href="#hocphi" class="btn lg">Đăng ký VIP Member ngay</a>
+    <h2>6 tháng tới, bạn có thể vẫn như cũ — hoặc bắt đầu khác đi</h2>
+    <p>Vấn đề không chỉ nằm ở việc kiếm được bao nhiêu tiền, mà nằm ở cách mình hiểu tiền, giữ tiền và dùng tiền. Kiến Tạo Hạnh Phúc Toàn Phần là nơi bạn không phải tự xoay xở một mình.</p>
+    <button class="btn lg" data-track="dang-ky" onclick="openRegModal('final-cta')">Đăng ký ngay</button>
   </div>
 </section>
 
 <footer>
   <img src="assets/logo.png" alt="Nấc Thang Hạnh Phúc">
-  © Nấc Thang Hạnh Phúc — Chương trình VIP Member · Liên hệ Zalo 0888.190392
+  © Nấc Thang Hạnh Phúc — Chương trình Kiến Tạo Hạnh Phúc Toàn Phần ·
+  <a href="https://zalo.me/0888190392" data-track="zalo">Zalo</a> ·
+  <a href="tel:0888190392" data-track="hotline">Hotline 0888.190392</a>
 </footer>
+
+<div class="proofToast" id="proofToast" role="button" tabindex="0" onclick="handleProofClick(event)" onkeydown="if(event.key==='Enter') handleProofClick(event)" aria-live="polite">
+  <button class="closeToast" onclick="dismissProofToast(event)" aria-label="Đóng thông báo">&times;</button>
+  <div class="avatar" id="proofAvatar">A</div>
+  <div class="body">
+    <div class="name" id="proofName">—</div>
+    <div class="detail" id="proofDetail">—</div>
+    <div class="time" id="proofTime">—</div>
+  </div>
+</div>
+
+<div class="modalOverlay" id="regModalOverlay" onclick="if(event.target===this) closeRegModal()">
+  <div class="modalCard" role="dialog" aria-modal="true" aria-labelledby="regModalTitle">
+    <button class="modalClose" onclick="closeRegModal()" aria-label="Đóng">&times;</button>
+
+    <div class="modalStep" id="regStep1">
+      <div class="modalStep-head">
+        <div class="eyebrow small">ĐĂNG KÝ · BƯỚC 1/3</div>
+        <h3 id="regModalTitle">Thông tin đăng ký</h3>
+        <p>Điền thông tin để giữ chỗ Kiến Tạo Hạnh Phúc Toàn Phần — mã đăng ký và hướng dẫn chuyển khoản sẽ hiện ngay sau khi bạn gửi form.</p>
+      </div>
+      <form id="regForm" onsubmit="return handleRegSubmit(event)">
+        <div class="fieldRow">
+          <div class="field">
+            <label>Họ và tên <span class="req">*</span></label>
+            <input type="text" name="hoTen" required>
+          </div>
+          <div class="field">
+            <label>Số điện thoại <span class="req">*</span></label>
+            <input type="tel" name="soDienThoai" required>
+          </div>
+        </div>
+        <div class="fieldRow">
+          <div class="field">
+            <label>Zalo <span class="req">*</span></label>
+            <input type="text" name="zalo" required>
+          </div>
+          <div class="field">
+            <label>Email</label>
+            <input type="email" name="email">
+          </div>
+        </div>
+        <div class="fieldRow">
+          <div class="field">
+            <label>Facebook (không bắt buộc)</label>
+            <input type="text" name="facebook">
+          </div>
+          <div class="field">
+            <label>Thành phố</label>
+            <input type="text" name="thanhPho">
+          </div>
+        </div>
+        <div class="field">
+          <label>Nghề nghiệp</label>
+          <select name="ngheNghiep">
+            <option value="">— Chọn nghề nghiệp —</option>
+            <option>Nhân viên văn phòng</option>
+            <option>Kinh doanh tự do / Freelancer</option>
+            <option>Chủ doanh nghiệp</option>
+            <option>Công chức / Viên chức</option>
+            <option>Nội trợ</option>
+            <option>Sinh viên</option>
+            <option>Khác</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Bạn biết đến Nấc Thang Hạnh Phúc qua đâu?</label>
+          <select name="source">
+            <option value="">— Chọn nguồn —</option>
+            <option>TikTok</option>
+            <option>Facebook</option>
+            <option>Youtube</option>
+            <option>Bạn bè</option>
+            <option>Workshop</option>
+            <option>Google</option>
+            <option>Khác</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Điều bạn mong muốn nhất khi tham gia?</label>
+          <div class="checkGroup">
+            <label class="checkItem"><input type="checkbox" name="mucTieu" value="Giữ được tiền">Giữ được tiền</label>
+            <label class="checkItem"><input type="checkbox" name="mucTieu" value="Quản lý tài chính">Quản lý tài chính</label>
+            <label class="checkItem"><input type="checkbox" name="mucTieu" value="Xây hệ thống tài chính">Xây hệ thống tài chính</label>
+            <label class="checkItem"><input type="checkbox" name="mucTieu" value="Tích sản">Tích sản</label>
+            <label class="checkItem"><input type="checkbox" name="mucTieu" value="Đầu tư">Đầu tư</label>
+            <label class="checkItem"><input type="checkbox" name="mucTieu" value="Đồng hành cùng cô giáo">Đồng hành cùng cô giáo</label>
+            <label class="checkItem"><input type="checkbox" name="mucTieu" value="Khác">Khác</label>
+          </div>
+        </div>
+        <button type="submit" class="btn lg" style="width:100%; margin-top: 8px;">Tiếp tục</button>
+      </form>
+    </div>
+
+    <div class="modalStep" id="regStep2" hidden>
+      <div class="modalStep-head">
+        <div class="eyebrow small">ĐĂNG KÝ · BƯỚC 2/3</div>
+        <h3>Chuyển khoản để giữ chỗ</h3>
+        <p>Vui lòng chuyển khoản đúng số tiền và nội dung bên dưới để EKIP xác nhận đăng ký nhanh nhất.</p>
+      </div>
+      <div class="regCodeBox">
+        <div class="regCodeLabel">Mã đăng ký của bạn</div>
+        <div class="regCodeValue" id="regCodeValue">—</div>
+        <button type="button" class="btn ghost" onclick="copyRegCode()"><i class="ti ti-copy"></i> Copy mã</button>
+      </div>
+      <div class="paymentGrid">
+        <div class="qrBox">
+          <img src="assets/qr-payment.jpg" alt="Mã QR chuyển khoản Techcombank">
+          <div class="scan">Quét mã để chuyển khoản</div>
+        </div>
+        <div class="bankInfo">
+          <div>Tên tài khoản: <b>HAPPINESS LADDER CO., LTD</b></div>
+          <div>Số tài khoản: <b>193399333</b></div>
+          <div>Ngân hàng: <b>Techcombank</b></div>
+          <div>Số tiền: <b>33.333.333 VNĐ</b></div>
+          <div>Nội dung CK: <b id="regCodeValue2">—</b></div>
+        </div>
+      </div>
+      <button type="button" class="btn lg" style="width:100%;" onclick="goToStep3()">Tôi đã chuyển khoản</button>
+    </div>
+
+    <div class="modalStep" id="regStep3" hidden>
+      <div class="modalStep-head">
+        <div class="eyebrow small">ĐĂNG KÝ · BƯỚC 3/3</div>
+        <h3>Xác nhận chuyển khoản</h3>
+        <p>Upload ảnh chụp biên lai chuyển khoản để EKIP đối chiếu và xác nhận đăng ký cho bạn.</p>
+      </div>
+      <form id="receiptForm" onsubmit="return handleReceiptSubmit(event)">
+        <div class="uploadBox">
+          <div>Ảnh chụp biên lai chuyển khoản <span class="req">*</span></div>
+          <input type="file" id="receiptFile" accept="image/*" required onchange="previewReceipt(event)">
+          <img class="uploadPreview" id="uploadPreview" alt="Xem trước biên lai">
+        </div>
+        <div class="field">
+          <label>Ghi chú (nếu có)</label>
+          <textarea id="receiptNote" placeholder="Ví dụ: đã chuyển lúc 10h sáng nay"></textarea>
+        </div>
+        <button type="submit" class="btn lg" style="width:100%;">Hoàn tất đăng ký</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="registration.js"></script>
+<script>
+  // ---- UTM capture ----
+  (function captureUtm() {
+    var params = new URLSearchParams(window.location.search);
+    var keys = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term'];
+    var utm = {};
+    var hasAny = false;
+    keys.forEach(function(k){
+      var v = params.get(k);
+      if (v) { utm[k] = v; hasAny = true; }
+    });
+    if (hasAny) {
+      sessionStorage.setItem('kthp_utm', JSON.stringify(utm));
+    }
+  })();
+  function getStoredUtm() {
+    try { return JSON.parse(sessionStorage.getItem('kthp_utm') || '{}'); }
+    catch (e) { return {}; }
+  }
+
+  // ---- Analytics / pixel placeholders ----
+  // TODO: thay G-XXXXXXX bằng GA4 Measurement ID thật
+  window.dataLayer = window.dataLayer || [];
+  function gtagStub(){ dataLayer.push(arguments); }
+  // Bỏ comment 2 dòng dưới khi có Measurement ID thật:
+  // var gaScript = document.createElement('script'); gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX'; document.head.appendChild(gaScript);
+  // gtagStub('js', new Date()); gtagStub('config', 'G-XXXXXXX');
+
+  // TODO: Meta Pixel — thay YOUR_PIXEL_ID
+  // !function(f,b,e,v,n,t,s){...}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+  // fbq('init', 'YOUR_PIXEL_ID'); fbq('track', 'PageView');
+
+  // TODO: TikTok Pixel — thay YOUR_TIKTOK_PIXEL_ID
+  // !function (w, d, t) {...}(window, document, 'ttq'); ttq.load('YOUR_TIKTOK_PIXEL_ID'); ttq.page();
+
+  // TODO: Google Tag Manager container — thay GTM-XXXXXXX
+  // (function(w,d,s,l,i){...})(window,document,'script','dataLayer','GTM-XXXXXXX');
+
+  // TODO: Google Ads conversion — thay AW-XXXXXXXXX / gọi gtag('event','conversion',{...}) khi registration_complete
+
+  function track(eventName, params) {
+    params = params || {};
+    try {
+      if (typeof gtag === 'function') { gtag('event', eventName, params); }
+      else { gtagStub('event', eventName, params); }
+    } catch (e) {}
+    console.log('[track]', eventName, params);
+  }
+
+  document.addEventListener('click', function(e) {
+    var el = e.target.closest('[data-track]');
+    if (el) track('cta_click', { cta: el.getAttribute('data-track') });
+  });
+
+  // ---- Scroll depth + time on page ----
+  (function () {
+    var marks = [25, 50, 75, 100];
+    var fired = {};
+    function onScroll() {
+      var scrollTop = window.scrollY || document.documentElement.scrollTop;
+      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docHeight > 0 ? Math.round((scrollTop / docHeight) * 100) : 100;
+      marks.forEach(function (m) {
+        if (pct >= m && !fired[m]) {
+          fired[m] = true;
+          track('scroll_depth', { percent: m });
+        }
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    track('page_view', { path: window.location.pathname });
+
+    var start = Date.now();
+    window.addEventListener('beforeunload', function () {
+      track('time_on_page', { seconds: Math.round((Date.now() - start) / 1000) });
+    });
+  })();
+
+  // ---- Registration modal logic ----
+  var currentRegCode = null;
+
+  function openRegModal(source) {
+    document.getElementById('regModalOverlay').classList.add('open');
+    document.getElementById('regStep1').hidden = false;
+    document.getElementById('regStep2').hidden = true;
+    document.getElementById('regStep3').hidden = true;
+    document.body.style.overflow = 'hidden';
+    track('form_open', { source: source });
+  }
+
+  function closeRegModal() {
+    document.getElementById('regModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  async function handleRegSubmit(event) {
+    event.preventDefault();
+    var form = event.target;
+    var fd = new FormData(form);
+    var mucTieu = fd.getAll('mucTieu');
+    var payload = {
+      hoTen: fd.get('hoTen'),
+      soDienThoai: fd.get('soDienThoai'),
+      zalo: fd.get('zalo'),
+      email: fd.get('email'),
+      facebook: fd.get('facebook'),
+      thanhPho: fd.get('thanhPho'),
+      ngheNghiep: fd.get('ngheNghiep'),
+      source: fd.get('source'),
+      mucTieu: mucTieu,
+      utm: getStoredUtm()
+    };
+    var result = await Registration.submitLead(payload);
+    currentRegCode = result.code;
+    document.getElementById('regCodeValue').textContent = currentRegCode;
+    document.getElementById('regCodeValue2').textContent = currentRegCode;
+    document.getElementById('regStep1').hidden = true;
+    document.getElementById('regStep2').hidden = false;
+    track('form_submit', { code: currentRegCode });
+    track('qr_shown', { code: currentRegCode });
+    return false;
+  }
+
+  function copyRegCode() {
+    if (!currentRegCode) return;
+    navigator.clipboard.writeText(currentRegCode).then(function () {
+      track('copy_code', { code: currentRegCode });
+    });
+  }
+
+  function goToStep3() {
+    document.getElementById('regStep2').hidden = true;
+    document.getElementById('regStep3').hidden = false;
+    track('paid_confirmed_click', { code: currentRegCode });
+  }
+
+  function previewReceipt(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var img = document.getElementById('uploadPreview');
+    img.src = URL.createObjectURL(file);
+    img.style.display = 'block';
+  }
+
+  async function handleReceiptSubmit(event) {
+    event.preventDefault();
+    var file = document.getElementById('receiptFile').files[0];
+    var note = document.getElementById('receiptNote').value;
+    await Registration.uploadReceipt(currentRegCode, file, note);
+    track('receipt_uploaded', { code: currentRegCode });
+    track('registration_complete', { code: currentRegCode });
+    // sessionStorage là nguồn chính để truyền mã sang trang cảm ơn — một số static
+    // host/dev server rewrite URL sạch (.html -> không đuôi) và có thể làm rớt query string.
+    sessionStorage.setItem('kthp_last_code', currentRegCode);
+    window.location.href = 'cam-on.html?code=' + encodeURIComponent(currentRegCode);
+    return false;
+  }
+
+  // ---- Social proof toast ----
+  // Danh sách ví dụ mô phỏng đăng ký gần đây để tạo hiệu ứng "đang có người đăng ký".
+  // TODO: khi có backend thật, thay list tĩnh này bằng vài đăng ký gần nhất thật lấy
+  // từ Supabase/Sheets (ẩn số điện thoại/email, chỉ hiện tên viết tắt + thành phố).
+  var proofSamples = [
+    { name: 'Chị Minh Thư', city: 'TP.HCM' },
+    { name: 'Anh Quốc Huy', city: 'Hà Nội' },
+    { name: 'Chị Bảo Trân', city: 'Đà Nẵng' },
+    { name: 'Anh Đức Anh', city: 'Cần Thơ' },
+    { name: 'Chị Thanh Hằng', city: 'Hải Phòng' },
+    { name: 'Anh Việt Hoàng', city: 'Nha Trang' },
+    { name: 'Chị Ngọc Diệp', city: 'Bình Dương' },
+    { name: 'Anh Trung Kiên', city: 'TP.HCM' }
+  ];
+  var proofOrder = [];
+  var proofTimer = null;
+  var PROOF_DISMISS_KEY = 'kthp_proof_dismissed';
+
+  function shuffledProofOrder() {
+    var idx = proofSamples.map(function (_, i) { return i; });
+    for (var i = idx.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
+    }
+    return idx;
+  }
+
+  function showNextProofToast() {
+    if (sessionStorage.getItem(PROOF_DISMISS_KEY)) return;
+    if (proofOrder.length === 0) proofOrder = shuffledProofOrder();
+    var sample = proofSamples[proofOrder.shift()];
+    var minutesAgo = 1 + Math.floor(Math.random() * 14);
+
+    document.getElementById('proofAvatar').textContent = sample.name.replace(/^(Anh|Chị)\s/, '').charAt(0);
+    document.getElementById('proofName').innerHTML = sample.name + ' <b>vừa đăng ký thành công</b>';
+    document.getElementById('proofDetail').textContent = 'Kiến Tạo Hạnh Phúc Toàn Phần · ' + sample.city;
+    document.getElementById('proofTime').textContent = minutesAgo + ' phút trước';
+
+    var toast = document.getElementById('proofToast');
+    toast.classList.add('show');
+    track('social_proof_shown', { name: sample.name, city: sample.city });
+
+    proofTimer = setTimeout(function () {
+      toast.classList.remove('show');
+      proofTimer = setTimeout(showNextProofToast, 9000 + Math.random() * 4000);
+    }, 6500);
+  }
+
+  function handleProofClick(event) {
+    track('social_proof_click');
+    openRegModal('social-proof-toast');
+  }
+
+  function dismissProofToast(event) {
+    event.stopPropagation();
+    clearTimeout(proofTimer);
+    document.getElementById('proofToast').classList.remove('show');
+    sessionStorage.setItem(PROOF_DISMISS_KEY, '1');
+    track('social_proof_dismissed');
+  }
+
+  setTimeout(showNextProofToast, 5000);
+</script>
 
 </body>
 </html>
