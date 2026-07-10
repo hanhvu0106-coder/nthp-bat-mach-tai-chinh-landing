@@ -157,8 +157,21 @@
   .finalCta h2 { font-size: 32px; font-weight: 800; margin-bottom: 16px; }
   .finalCta p { color: #B9DBCE; font-size: 15.5px; margin-bottom: 30px; }
 
-  footer { border-top: 1px solid rgba(159,225,203,0.12); padding: 34px 0; text-align: center; font-size: 13px; color: #5F958A; }
-  footer img { height: 34px; width: auto; margin: 0 auto 14px; }
+  footer { border-top: 1px solid rgba(159,225,203,0.15); background: #071C1F; padding: 20px 0; }
+  footer .wrap { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+  footer .footerLogo img { height: 30px; width: auto; }
+  footer .footerContact { display: flex; align-items: center; gap: 16px; font-size: 14px; color: #B9DBCE; flex-wrap: wrap; }
+  footer .footerContact .phone { color: #EFC275; font-weight: 700; }
+  footer .footerContact .footerChat {
+    display: inline-flex; align-items: center; gap: 6px; color: #9FE1CB; font-weight: 700;
+    border: 1px solid rgba(159,225,203,0.35); border-radius: 999px; padding: 6px 14px; font-size: 13px;
+  }
+  footer .footerContact .footerChat:hover { background: rgba(159,225,203,0.1); }
+  footer .footerCopy { font-size: 12.5px; color: #5F958A; white-space: nowrap; }
+  @media (max-width: 700px) {
+    footer .wrap { flex-direction: column; text-align: center; }
+    footer .footerContact { justify-content: center; }
+  }
 
   /* JOIN SECTION */
   .joinSection { padding-top: 0; }
@@ -485,10 +498,14 @@
 </section>
 
 <footer>
-  <img src="assets/logo.png" alt="Nấc Thang Hạnh Phúc">
-  © Nấc Thang Hạnh Phúc — Chương trình Kiến Tạo Hạnh Phúc Toàn Phần ·
-  <a href="https://zalo.me/0888190392" data-track="zalo">Zalo</a> ·
-  <a href="tel:0888190392" data-track="hotline">Hotline 0888.190392</a>
+  <div class="wrap">
+    <a href="#" class="footerLogo"><img src="assets/logo.png" alt="Nấc Thang Hạnh Phúc"></a>
+    <div class="footerContact">
+      <span>Hotline / Zalo tư vấn: <a href="tel:0888190392" class="phone" data-track="hotline">0888.190392</a></span>
+      <a href="https://zalo.me/0888190392" class="footerChat" data-track="zalo"><i class="ti ti-brand-zalo"></i>Chat Zalo</a>
+    </div>
+    <div class="footerCopy">© 2026 Nấc Thang Hạnh Phúc</div>
+  </div>
 </footer>
 
 <div class="proofToast" id="proofToast" role="button" tabindex="0" onclick="handleProofClick(event)" onkeydown="if(event.key==='Enter') handleProofClick(event)" aria-live="polite">
