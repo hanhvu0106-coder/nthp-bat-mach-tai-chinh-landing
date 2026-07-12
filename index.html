@@ -1194,9 +1194,9 @@
   var VAT_RATE = 0.08;
 
   // Quà tặng Lead magnet — THAY link/nội dung thật tại đây khi có file chính thức
-  var LEAD_MAGNET_TYPE = 'ebook'; // "ebook" | "quiz"
-  var LEAD_MAGNET_TITLE = 'Ebook Bắt Mạch Tài Chính Gia Đình';
-  var LEAD_MAGNET_URL = 'https://example.com/PLACEHOLDER-thay-link-qua-tang-that.pdf';
+  var LEAD_MAGNET_TYPE = 'quiz'; // "ebook" | "quiz"
+  var LEAD_MAGNET_TITLE = 'Bài Test Bắt Mạch Tài Chính Gia Đình';
+  var LEAD_MAGNET_URL = 'https://vercel-baitest.vercel.app/';
 
   var sb = null;
   if (window.supabase && window.supabase.createClient) {
@@ -1423,6 +1423,7 @@
     document.getElementById('regGiftCode').textContent = currentRegistration.registration_code;
     document.getElementById('regGiftTitle').textContent = LEAD_MAGNET_TITLE;
     document.getElementById('regGiftDownload').setAttribute('href', LEAD_MAGNET_URL);
+    document.getElementById('regGiftDownload').textContent = (LEAD_MAGNET_TYPE === 'quiz') ? 'Làm bài test ngay' : 'Tải quà ngay';
     document.getElementById('regGiftActions').hidden = false;
     document.getElementById('regGiftLaterNote').hidden = true;
   }

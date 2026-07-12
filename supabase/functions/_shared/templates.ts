@@ -187,7 +187,7 @@ export function p1PaymentConfirmedEmail(p: {
     <p>Chào ${escapeHtml(firstNameOf(p.fullName))},</p>
     <p>Vé tham dự Workshop <b>Bắt Mạch Tài Chính Gia Đình</b> của bạn đã được xác nhận.</p>
     ${dataTable(rows)}
-    <p><a href="${p.giftUrl}" style="color:${BRAND.cyanDark};">Tải lại quà tặng: ${escapeHtml(p.giftTitle)}</a></p>
+    <p><a href="${p.giftUrl}" style="color:${BRAND.cyanDark};">Xem lại quà tặng: ${escapeHtml(p.giftTitle)}</a></p>
     <p>Ekip sẽ gửi link Zoom và các thông tin chuẩn bị qua Zalo/email trước buổi học. Vui lòng để ý điện thoại và hộp thư trong những ngày tới.</p>
   `;
   return {
