@@ -143,6 +143,7 @@
     display:flex;align-items:center;gap:6px;
   }
   .pill b{color:var(--cyan);}
+  .price-emphasis{color:var(--cyan);font-weight:900;font-size:1.25em;letter-spacing:0.01em;}
   .pill .strike{text-decoration:line-through;opacity:0.55;font-weight:500;margin-right:4px;}
   .promo-badge{
     display:inline-flex;align-items:center;gap:8px;background:rgba(24,198,217,0.14);
@@ -152,7 +153,7 @@
   }
   .promo-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);box-shadow:0 0 10px var(--cyan-glow);flex:none;}
   .promo-badge .strike{text-decoration:line-through;opacity:0.6;font-weight:500;margin-right:2px;}
-  .promo-badge .price-big{font-size:17px;font-weight:900;letter-spacing:0;}
+  .promo-badge .price-big{font-size:19px;font-weight:900;letter-spacing:0;}
   .vat-note{font-size:12.5px;color:var(--ondark-muted);margin-top:8px;}
   .hero-subline{margin-top:14px;font-size:14.5px;color:var(--ondark-muted);font-weight:500;}
   .hero-cta-row{display:flex;flex-wrap:wrap;gap:14px;margin-top:34px;align-items:center;}
@@ -587,7 +588,7 @@
     <div class="promo-badge"><span class="dot"></span>50 vé ưu đãi đầu tiên</div>
     <div class="hero-info-row">
       <span class="pill">📅 <b>14h00 – 17h00</b> · Chủ Nhật, 26/7/2027</span>
-      <span class="pill">💰 <span class="strike">999.000đ</span> <b>699.000đ</b>/người</span>
+      <span class="pill">💰 <span class="strike">999.000đ</span> <b class="price-emphasis">699.000đ</b>/người</span>
       <span class="pill">🖥️ Online qua Zoom</span>
     </div>
     <p class="vat-note">Giá vé đã bao gồm 8% VAT · Ưu đãi được xác nhận theo thứ tự hoàn tất thanh toán.</p>
@@ -848,7 +849,7 @@
       <div class="price-row" style="justify-content:center;">
         <button type="button" class="btn btn-primary price-btn js-open-register" style="flex:none;">Đăng ký giữ vé ưu đãi</button>
       </div>
-      <p class="vat-note" style="text-align:center;" id="ticketCounterNote">699.000đ/người · giá niêm yết 999.000đ · đã bao gồm 8% VAT</p>
+      <p class="vat-note" style="text-align:center;" id="ticketCounterNote"><b class="price-emphasis">699.000đ</b>/người · giá niêm yết 999.000đ · đã bao gồm 8% VAT</p>
     </div>
     <p class="zalo-note">Có thắc mắc? Nhắn Zalo <a href="https://zalo.me/0888190392">0888 190 392</a>, ekip phản hồi trong 30 phút.</p>
   </div>
@@ -958,7 +959,7 @@
 </footer>
 
 <div class="sticky-cta" id="stickyCta">
-  <div class="price">699.000đ / người<span>Giá gốc 999.000đ · còn 50 vé ưu đãi</span></div>
+  <div class="price"><b class="price-emphasis">699.000đ</b> / người<span>Giá gốc 999.000đ · còn 50 vé ưu đãi</span></div>
   <button type="button" class="btn btn-primary js-open-register">Đăng ký ngay</button>
 </div>
 
@@ -1602,7 +1603,7 @@
         document.querySelectorAll('.promo-badge').forEach(function(b){ b.style.display = 'none'; });
         noteEls.forEach(function(n){ n.textContent = 'Đã hết vé ưu đãi — giá hiện tại 999.000đ/người, đã bao gồm 8% VAT'; });
       } else if (remaining <= 15) {
-        noteEls.forEach(function(n){ n.textContent = 'Còn ' + remaining + '/50 vé ưu đãi · 699.000đ/người · đã bao gồm 8% VAT'; });
+        noteEls.forEach(function(n){ n.innerHTML = 'Còn ' + remaining + '/50 vé ưu đãi · <b class="price-emphasis">699.000đ</b>/người · đã bao gồm 8% VAT'; });
       }
     }).catch(function(){});
   }
