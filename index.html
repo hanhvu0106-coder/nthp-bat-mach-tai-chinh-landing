@@ -456,6 +456,12 @@
   .reg-thanks-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px;}
   .reg-thanks-actions .btn{flex:1;min-width:140px;}
 
+  .reg-gift-bullets{list-style:none;margin:16px 0 20px;padding:0;display:grid;gap:8px;}
+  .reg-gift-bullets li{font-size:13.5px;color:var(--text-secondary);padding-left:22px;position:relative;line-height:1.5;}
+  .reg-gift-bullets li::before{content:"✓";position:absolute;left:0;color:var(--cyan-dark);font-weight:700;}
+  .reg-gift-box{background:var(--silver);border-radius:14px;padding:16px;margin-bottom:8px;text-align:center;}
+  .reg-gift-title{font-family:var(--serif);font-size:17px;color:var(--navy);margin-bottom:12px;font-weight:700;}
+
   /* ===== SOCIAL PROOF POPUP ===== */
   .social-proof-toast{
     position:fixed;left:20px;bottom:20px;z-index:70;max-width:320px;
@@ -912,6 +918,22 @@
         <button class="faq-q">Học xong tôi có áp dụng được ngay không?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
         <div class="faq-a"><p>Có. Bạn sẽ tự vẽ được bản đồ tài chính của gia đình mình và xác định lộ trình 90 ngày đầu tiên ngay trong buổi học.</p></div>
       </div>
+      <div class="faq-item">
+        <button class="faq-q">Tôi có phải thanh toán mới được nhận quà không?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Không. Bạn chỉ cần hoàn thành form đăng ký là có thể nhận quà tặng. Bạn có thể thanh toán sau để xác nhận vé tham dự Workshop.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Sau khi điền form nhưng chưa thanh toán, thông tin của tôi có được lưu không?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Có. Hệ thống sẽ lưu thông tin đăng ký và gửi cho bạn mã đăng ký cùng đường dẫn thanh toán riêng qua email.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Tôi đã nhận quà nhưng muốn thanh toán sau thì làm thế nào?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Bạn có thể sử dụng đường dẫn thanh toán cá nhân hoá được gửi trong email. Bạn không cần điền lại form.</p></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Sau khi thanh toán, tôi có tiếp tục nhận email nhắc thanh toán không?<svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="faq-a"><p>Không. Sau khi BTC xác nhận thanh toán, hệ thống sẽ dừng email nhắc thanh toán và chuyển sang chuỗi email chuẩn bị cho Workshop.</p></div>
+      </div>
     </div>
     <div class="faq-cta"><a href="https://zalo.me/0888190392" class="btn btn-secondary">Vẫn còn thắc mắc? Nhắn Zalo</a></div>
   </div>
@@ -949,12 +971,19 @@
       <span class="step-dot" data-step="2"></span>
       <span class="step-dot" data-step="3"></span>
       <span class="step-dot" data-step="4"></span>
+      <span class="step-dot" data-step="5"></span>
     </div>
 
     <!-- STEP 1 — Registration form -->
     <div class="reg-step" data-step-panel="1">
-      <h3 id="regModalTitle">Đăng ký giữ vé ưu đãi</h3>
-      <p class="reg-step-sub">699.000đ/người · 50 vé ưu đãi đầu tiên · đã bao gồm 8% VAT</p>
+      <h3 id="regModalTitle">Đăng ký nhận quà và giữ chỗ Workshop</h3>
+      <p class="reg-step-sub">Điền thông tin để nhận ngay quà tặng từ Nấc Thang Hạnh Phúc. Bạn chưa cần thanh toán ở bước này.</p>
+      <ul class="reg-gift-bullets">
+        <li>Nhận quà miễn phí ngay sau khi đăng ký</li>
+        <li>Nhận mã giữ chỗ Workshop</li>
+        <li>Có thể thanh toán ngay hoặc quay lại thanh toán sau</li>
+        <li>Ekip sẽ gửi thông tin và hỗ trợ qua email/Zalo</li>
+      </ul>
       <form id="regForm" novalidate>
         <div class="reg-field"><label for="regFullName">Họ và tên *</label><input id="regFullName" type="text" name="full_name" autocomplete="name" required aria-required="true"></div>
         <div class="reg-field"><label for="regPhone">Số điện thoại *</label><input id="regPhone" type="tel" name="phone" autocomplete="tel" required aria-required="true" placeholder="09xxxxxxxx"></div>
@@ -978,11 +1007,34 @@
         <div class="reg-field"><label for="regJob">Nghề nghiệp</label><input id="regJob" type="text" name="occupation"></div>
         <div class="reg-field"><label for="regNote">Ghi chú</label><textarea id="regNote" name="note" rows="2"></textarea></div>
         <input type="text" name="website" class="reg-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <label class="reg-checkbox"><input type="checkbox" name="consent" required aria-required="true"><span>Tôi đồng ý để Nấc Thang Hạnh Phúc sử dụng thông tin trên nhằm xác nhận đăng ký, hỗ trợ thanh toán và gửi thông tin liên quan đến Workshop. <a href="javascript:void(0)" id="regPrivacyLink">Xem chính sách bảo mật</a></span></label>
+        <label class="reg-checkbox"><input type="checkbox" name="consent" required aria-required="true"><span>Tôi đồng ý để Nấc Thang Hạnh Phúc sử dụng thông tin trên nhằm gửi quà tặng, hỗ trợ đăng ký, xác nhận thanh toán và gửi các nội dung liên quan đến Workshop. Tôi có thể hủy nhận email bất cứ lúc nào. <a href="javascript:void(0)" id="regPrivacyLink">Xem chính sách bảo mật</a></span></label>
         <label class="reg-checkbox"><input type="checkbox" name="show_in_social_proof"><span>Đồng ý hiển thị tên viết tắt (VD: "Nguyễn H.") trên landing page khi vừa đăng ký</span></label>
         <div class="reg-error" id="regFormError" hidden></div>
-        <button type="submit" class="btn btn-primary btn-block" id="regSubmitBtn">Tiếp tục giữ vé</button>
+        <button type="submit" class="btn btn-primary btn-block" id="regSubmitBtn">Nhận quà và giữ chỗ</button>
       </form>
+    </div>
+
+    <!-- STEP GIFT — Quà tặng đã sẵn sàng, cho chọn thanh toán ngay hoặc sau -->
+    <div class="reg-step" data-step-panel="gift" hidden>
+      <div class="reg-thanks-icon">🎁</div>
+      <h3 style="text-align:center;">Quà tặng của bạn đã sẵn sàng</h3>
+      <p style="font-size:14px;color:var(--text-secondary);text-align:center;">Xin chào <b id="regGiftName">—</b>, quà cũng đã được gửi qua email của bạn.</p>
+      <div class="reg-code-box">Mã đăng ký của bạn<b id="regGiftCode">—</b></div>
+      <div class="reg-gift-box">
+        <div class="reg-gift-title" id="regGiftTitle">Ebook Bắt Mạch Tài Chính Gia Đình</div>
+        <a href="#" target="_blank" rel="noopener" class="btn btn-secondary btn-block" id="regGiftDownload">Tải quà ngay</a>
+      </div>
+      <div id="regGiftActions">
+        <button type="button" class="btn btn-primary btn-block" id="regGiftPayNow" style="margin-top:18px;">Thanh toán ngay để xác nhận vé</button>
+        <button type="button" class="btn btn-ghost btn-block" id="regGiftPayLater" style="margin-top:10px;">Tôi sẽ thanh toán sau</button>
+      </div>
+      <div id="regGiftLaterNote" hidden style="margin-top:18px;">
+        <p style="font-size:14px;color:var(--text-secondary);text-align:center;line-height:1.7;">Không sao cả! Thông tin đăng ký và quà tặng của bạn đã được lưu lại. Bạn có thể mở email đã nhận để quay lại thanh toán bất cứ lúc nào — link thanh toán trong email là link riêng của bạn, không cần điền lại form.</p>
+        <div class="reg-thanks-actions">
+          <a href="https://zalo.me/0888190392" class="btn btn-primary">Liên hệ Zalo</a>
+          <button type="button" class="btn btn-ghost" id="regGiftBackHome">Về trang chủ</button>
+        </div>
+      </div>
     </div>
 
     <!-- STEP 2 — Payment info (revealed only after step 1 succeeds) -->
@@ -1025,12 +1077,12 @@
       </form>
     </div>
 
-    <!-- STEP 4 — Thank you -->
+    <!-- STEP 4 — Thank you (nội dung đổi theo trạng thái qua JS: payment_submitted / payment_confirmed) -->
     <div class="reg-step" data-step-panel="4" hidden>
-      <div class="reg-thanks-icon">✓</div>
-      <h3 style="text-align:center;">Cảm ơn bạn đã đăng ký Workshop Bắt Mạch Tài Chính Gia Đình</h3>
+      <div class="reg-thanks-icon" id="regThanksIcon">✓</div>
+      <h3 style="text-align:center;" id="regThanksTitle">BTC đã nhận được thông tin chuyển khoản</h3>
       <div class="reg-code-box">Mã đăng ký của bạn<b id="regThanksCode">—</b></div>
-      <p style="font-size:14px;color:var(--text-secondary);text-align:center;line-height:1.7;">BTC đã nhận được thông tin xác nhận chuyển khoản và đang tiến hành đối soát.<br>Ekip Nấc Thang Hạnh Phúc sẽ liên hệ qua Zalo sau khi xác nhận thanh toán.</p>
+      <p style="font-size:14px;color:var(--text-secondary);text-align:center;line-height:1.7;" id="regThanksBody">Giao dịch đang được đối soát. Bạn sẽ nhận email xác nhận chính thức sau khi thanh toán được kiểm tra.</p>
       <div class="reg-thanks-actions">
         <a href="https://zalo.me/0888190392" class="btn btn-primary" id="regThanksZalo">Liên hệ Zalo</a>
         <a href="tel:0888190392" class="btn btn-secondary">Gọi hotline</a>
@@ -1141,6 +1193,11 @@
   var PROMO_PRICE = 699000;
   var VAT_RATE = 0.08;
 
+  // Quà tặng Lead magnet — THAY link/nội dung thật tại đây khi có file chính thức
+  var LEAD_MAGNET_TYPE = 'ebook'; // "ebook" | "quiz"
+  var LEAD_MAGNET_TITLE = 'Ebook Bắt Mạch Tài Chính Gia Đình';
+  var LEAD_MAGNET_URL = 'https://example.com/PLACEHOLDER-thay-link-qua-tang-that.pdf';
+
   var sb = null;
   if (window.supabase && window.supabase.createClient) {
     sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1173,10 +1230,33 @@
       fbclid: params.get('fbclid'),
       ttclid: params.get('ttclid'),
       gclid: params.get('gclid'),
-      device_type: isMobile ? 'mobile' : 'desktop'
+      device_type: isMobile ? 'mobile' : 'desktop',
+      ref_code: params.get('ref')
     };
   }
   var utmData = getUtmData();
+
+  // First-touch: ghi 1 lần duy nhất, không bao giờ ghi đè. Last-touch: luôn cập nhật theo lượt truy cập mới nhất.
+  function touchSourceOf(d){ return d.ref_code || d.utm_source || (d.referrer ? 'referrer' : 'direct'); }
+  function persistTouchData(){
+    try {
+      var current = { source: touchSourceOf(utmData), utm_campaign: utmData.utm_campaign };
+      if (!localStorage.getItem('nthp_first_touch')) {
+        localStorage.setItem('nthp_first_touch', JSON.stringify(current));
+      }
+      localStorage.setItem('nthp_last_touch', JSON.stringify(current));
+    } catch(e){}
+  }
+  persistTouchData();
+  function getTouchData(){
+    var first = {}, last = {};
+    try { first = JSON.parse(localStorage.getItem('nthp_first_touch') || '{}') || {}; } catch(e){}
+    try { last = JSON.parse(localStorage.getItem('nthp_last_touch') || '{}') || {}; } catch(e){}
+    return {
+      first_touch_source: first.source || null, first_touch_utm_campaign: first.utm_campaign || null,
+      last_touch_source: last.source || null, last_touch_utm_campaign: last.utm_campaign || null
+    };
+  }
 
   track('page_view', {page_path: window.location.pathname, utm_source: utmData.utm_source});
   var scrollFired = {25:false,50:false,75:false,100:false};
@@ -1231,20 +1311,24 @@
   overlay.addEventListener('click', function(e){ if (e.target === overlay) closeModal(); });
   document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal(); });
 
+  // Panel 'gift' xen giữa panel '1' và '2' — dùng bảng tra để tô đúng dot (1..5) cho mỗi panel.
+  var PANEL_TO_DOT = {'1':1, 'gift':2, '2':3, '3':4, '4':5};
   function goToStep(n){
+    n = String(n);
     document.querySelectorAll('.reg-step').forEach(function(panel){
-      panel.hidden = panel.getAttribute('data-step-panel') != String(n);
+      panel.hidden = panel.getAttribute('data-step-panel') !== n;
     });
+    var activeDot = PANEL_TO_DOT[n] || 0;
     document.querySelectorAll('.step-dot').forEach(function(dot){
       var s = parseInt(dot.getAttribute('data-step'),10);
-      dot.classList.toggle('active', s === n);
-      dot.classList.toggle('done', s < n);
+      dot.classList.toggle('active', s === activeDot);
+      dot.classList.toggle('done', s < activeDot);
     });
     document.getElementById('regStepsIndicator').style.display = (n === 'privacy') ? 'none' : 'flex';
     overlay.querySelector('.reg-modal').scrollTop = 0;
   }
   document.getElementById('regPrivacyLink').addEventListener('click', function(){ goToStep('privacy'); });
-  document.getElementById('regPrivacyBack').addEventListener('click', function(){ goToStep(1); });
+  document.getElementById('regPrivacyBack').addEventListener('click', function(){ goToStep('1'); });
 
   // ===== VALIDATION =====
   function isValidVNPhone(v){ return /^(0|\+84)(3|5|7|8|9)[0-9]{8}$/.test(v.replace(/[\s.-]/g,'')); }
@@ -1287,6 +1371,7 @@
     track('registration_form_start', {utm_source: utmData.utm_source});
     track('registration_form_submit', {utm_source: utmData.utm_source});
 
+    var touch = getTouchData();
     sb.rpc('submit_registration', {
       p_full_name: full_name, p_phone: phone, p_zalo: zalo, p_city: city, p_referral_source: referral_source,
       p_email: email || null,
@@ -1295,33 +1380,82 @@
       p_note: (fd.get('note')||'').trim() || null,
       p_show_in_social_proof: !!fd.get('show_in_social_proof'),
       p_consent: true,
+      p_email_opt_in: true,
       p_landing_page_url: utmData.landing_page_url, p_referrer: utmData.referrer,
       p_utm_source: utmData.utm_source, p_utm_medium: utmData.utm_medium, p_utm_campaign: utmData.utm_campaign,
       p_utm_content: utmData.utm_content, p_utm_term: utmData.utm_term,
       p_fbclid: utmData.fbclid, p_ttclid: utmData.ttclid, p_gclid: utmData.gclid,
-      p_device_type: utmData.device_type
+      p_device_type: utmData.device_type,
+      p_ref_code: utmData.ref_code,
+      p_first_touch_source: touch.first_touch_source, p_first_touch_utm_campaign: touch.first_touch_utm_campaign,
+      p_last_touch_source: touch.last_touch_source, p_last_touch_utm_campaign: touch.last_touch_utm_campaign,
+      p_lead_magnet_type: LEAD_MAGNET_TYPE, p_lead_magnet_title: LEAD_MAGNET_TITLE
     }).then(function(res){
       regSubmitting = false;
-      btn.disabled = false; btn.textContent = 'Tiếp tục giữ vé';
+      btn.disabled = false; btn.textContent = 'Nhận quà và giữ chỗ';
       if (res.error || !res.data || !res.data.length){
-        showError(errEl, 'Có lỗi xảy ra, vui lòng thử lại hoặc nhắn Zalo 0888190392.');
+        var msg = (res.error && res.error.message === 'duplicate_submission')
+          ? 'Bạn vừa gửi đăng ký này rồi, vui lòng chờ trong giây lát.'
+          : 'Có lỗi xảy ra, vui lòng thử lại hoặc nhắn Zalo 0888190392.';
+        showError(errEl, msg);
         return;
       }
       var row = res.data[0];
       currentRegistration = {
         registration_id: row.registration_id,
         registration_code: row.registration_code,
+        payment_token: row.payment_token,
         full_name: full_name, phone: phone
       };
-      track('registration_success', {registration_code: currentRegistration.registration_code, utm_source: utmData.utm_source, ticket_price: PROMO_PRICE});
-      fillPaymentStep();
-      goToStep(2);
-      track('payment_info_view', {registration_code: currentRegistration.registration_code});
+      track('registration_success', {registration_code: currentRegistration.registration_code, utm_source: utmData.utm_source});
+      fillGiftStep();
+      goToStep('gift');
     }).catch(function(){
       regSubmitting = false;
-      btn.disabled = false; btn.textContent = 'Tiếp tục giữ vé';
+      btn.disabled = false; btn.textContent = 'Nhận quà và giữ chỗ';
       showError(errEl, 'Không kết nối được hệ thống, vui lòng thử lại hoặc nhắn Zalo 0888190392.');
     });
+  });
+
+  // ===== STEP GIFT =====
+  function fillGiftStep(){
+    document.getElementById('regGiftName').textContent = currentRegistration.full_name;
+    document.getElementById('regGiftCode').textContent = currentRegistration.registration_code;
+    document.getElementById('regGiftTitle').textContent = LEAD_MAGNET_TITLE;
+    document.getElementById('regGiftDownload').setAttribute('href', LEAD_MAGNET_URL);
+    document.getElementById('regGiftActions').hidden = false;
+    document.getElementById('regGiftLaterNote').hidden = true;
+  }
+  document.getElementById('regGiftDownload').addEventListener('click', function(){
+    track('gift_download_click', {registration_code: currentRegistration && currentRegistration.registration_code});
+  });
+  document.getElementById('regGiftPayNow').addEventListener('click', function(){
+    if (!currentRegistration || !sb) { goToStep('2'); fillPaymentStep(); return; }
+    sb.rpc('mark_payment_started', {
+      p_registration_id: currentRegistration.registration_id,
+      p_registration_code: currentRegistration.registration_code,
+      p_payment_token: currentRegistration.payment_token
+    }).finally(function(){
+      fillPaymentStep();
+      goToStep('2');
+      track('payment_info_view', {registration_code: currentRegistration.registration_code});
+    });
+  });
+  document.getElementById('regGiftPayLater').addEventListener('click', function(){
+    document.getElementById('regGiftActions').hidden = true;
+    document.getElementById('regGiftLaterNote').hidden = false;
+    if (currentRegistration && sb) {
+      sb.rpc('mark_lead_unpaid', {
+        p_registration_id: currentRegistration.registration_id,
+        p_registration_code: currentRegistration.registration_code,
+        p_payment_token: currentRegistration.payment_token
+      });
+    }
+    track('registration_pay_later', {registration_code: currentRegistration && currentRegistration.registration_code});
+  });
+  document.getElementById('regGiftBackHome').addEventListener('click', function(){
+    closeModal();
+    window.scrollTo({top:0, behavior:'smooth'});
   });
 
   function fillPaymentStep(){
@@ -1506,6 +1640,50 @@
   });
   var firstDelay = 8000 + Math.random()*7000;
   setTimeout(pickAndShowToast, firstDelay);
+
+  // ===== RESUME QUA LINK THANH TOÁN CÁ NHÂN HOÁ (?registration=CODE&token=TOKEN) =====
+  // Không bắt khách điền lại form — tự nhận diện mã đăng ký + token, mở đúng bước.
+  (function resumeFromPaymentLink(){
+    var params = new URLSearchParams(window.location.search);
+    var code = params.get('registration');
+    var token = params.get('token');
+    if (!code || !token || !sb) return;
+
+    sb.rpc('get_registration_by_token', { p_registration_code: code, p_payment_token: token }).then(function(res){
+      if (res.error || !res.data || !res.data.length) return;
+      var row = res.data[0];
+      currentRegistration = {
+        registration_id: row.registration_id,
+        registration_code: row.registration_code,
+        payment_token: token,
+        full_name: row.full_name, phone: row.phone
+      };
+
+      openModal();
+
+      if (row.payment_status === 'payment_confirmed') {
+        document.getElementById('regThanksIcon').textContent = '✓';
+        document.getElementById('regThanksTitle').textContent = 'Vé Workshop của bạn đã được xác nhận';
+        document.getElementById('regThanksBody').textContent = 'Cảm ơn bạn đã hoàn tất thanh toán. Ekip sẽ gửi link Zoom và hướng dẫn chuẩn bị qua Zalo/email trước buổi học.';
+        document.getElementById('regThanksCode').textContent = row.registration_code;
+        goToStep('4');
+      } else if (row.payment_status === 'payment_submitted') {
+        document.getElementById('regThanksIcon').textContent = '✓';
+        document.getElementById('regThanksTitle').textContent = 'BTC đã nhận được thông tin chuyển khoản';
+        document.getElementById('regThanksBody').textContent = 'Giao dịch đang được đối soát. Bạn sẽ nhận email xác nhận chính thức sau khi thanh toán được kiểm tra.';
+        document.getElementById('regThanksCode').textContent = row.registration_code;
+        goToStep('4');
+      } else if (row.payment_status === 'payment_rejected') {
+        fillPaymentStep();
+        document.getElementById('regCodeReadonly').value = row.registration_code;
+        goToStep('3');
+      } else {
+        fillPaymentStep();
+        goToStep('2');
+        track('payment_info_view', {registration_code: row.registration_code});
+      }
+    }).catch(function(){});
+  })();
 
 })();
 </script>

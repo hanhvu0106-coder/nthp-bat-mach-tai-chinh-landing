@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Hủy nhận email — Nấc Thang Hạnh Phúc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#071A2F; --cyan:#18C6D9; --cyan-dark:#0EA0B0; --white:#F8FBFC; --silver:#E7EEF2;
+    --ink:#1A2733; --text-secondary:#5B6B78; --border:#E2E8EC; --serif:'Playfair Display',Georgia,serif; --sans:'Inter',sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--sans);background:var(--silver);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+  .card{background:#fff;border-radius:18px;max-width:440px;width:100%;padding:36px 32px;box-shadow:0 20px 50px rgba(7,26,47,0.12);text-align:center;}
+  .brand{font-family:var(--serif);font-weight:700;color:var(--navy);font-size:15px;margin-bottom:20px;}
+  .icon{width:52px;height:52px;border-radius:50%;background:var(--cyan);color:#fff;font-size:24px;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+  h1{font-family:var(--serif);font-size:22px;margin:0 0 12px;color:var(--navy);}
+  p{font-size:14.5px;line-height:1.6;color:var(--text-secondary);margin:0 0 20px;}
+  button, a.btn{
+    display:inline-block;background:var(--cyan);color:var(--navy);text-decoration:none;font-weight:700;font-size:14.5px;
+    padding:12px 26px;border-radius:999px;border:none;cursor:pointer;
+  }
+  button:disabled{opacity:0.6;cursor:not-allowed;}
+  .home-link{display:block;margin-top:16px;font-size:13px;color:var(--cyan-dark);text-decoration:none;}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">Nấc Thang Hạnh Phúc</div>
+    <div class="icon" id="icon">✓</div>
+    <h1 id="title">Hủy nhận email</h1>
+    <p id="body">Đang xử lý yêu cầu của bạn...</p>
+    <button type="button" id="actionBtn" hidden>Xác nhận hủy nhận email</button>
+    <a class="home-link" href="/">Về trang chủ Nấc Thang Hạnh Phúc</a>
+  </div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+(function(){
+  'use strict';
+  var SUPABASE_URL = 'https://mugkzkrbwgfpsrtnicsv.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z2t6a3Jid2dmcHNydG5pY3N2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4MDA2MDUsImV4cCI6MjA5OTM3NjYwNX0.IKYnEU2iuzAL6EDSU-qxMgwY2pklp6PbuibwTBuEldw';
+  var sb = (window.supabase && window.supabase.createClient) ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null;
+
+  var params = new URLSearchParams(window.location.search);
+  var code = params.get('code');
+  var token = params.get('token');
+  var iconEl = document.getElementById('icon');
+  var titleEl = document.getElementById('title');
+  var bodyEl = document.getElementById('body');
+  var btn = document.getElementById('actionBtn');
+
+  function showError(msg){
+    iconEl.textContent = '!'; iconEl.style.background = '#E24B4A';
+    titleEl.textContent = 'Không thể xử lý yêu cầu';
+    bodyEl.textContent = msg;
+  }
+
+  if (!code || !token || !sb) {
+    showError('Đường dẫn hủy nhận email không hợp lệ hoặc đã hết hạn. Vui lòng nhắn Zalo 0888190392 nếu bạn cần hỗ trợ.');
+  } else {
+    bodyEl.textContent = 'Bạn có muốn hủy nhận email từ Nấc Thang Hạnh Phúc cho mã đăng ký ' + code + '? Bạn vẫn có thể nhận các email giao dịch bắt buộc liên quan đến vé đã đăng ký.';
+    btn.hidden = false;
+    btn.addEventListener('click', function(){
+      btn.disabled = true; btn.textContent = 'Đang xử lý...';
+      sb.rpc('unsubscribe_email', { p_registration_code: code, p_payment_token: token }).then(function(res){
+        if (res.error) { showError('Có lỗi xảy ra, vui lòng thử lại hoặc nhắn Zalo 0888190392.'); return; }
+        btn.hidden = true;
+        titleEl.textContent = 'Đã hủy nhận email';
+        bodyEl.textContent = 'Bạn sẽ không nhận thêm email marketing từ Nấc Thang Hạnh Phúc. Các email giao dịch bắt buộc (nếu có) vẫn sẽ được gửi.';
+      }).catch(function(){
+        showError('Không kết nối được hệ thống, vui lòng thử lại hoặc nhắn Zalo 0888190392.');
+      });
+    });
+  }
+})();
+</script>
+</body>
+</html>
