@@ -1128,5 +1128,384 @@
     });
   });
 </script>
+<script>
+(function(){
+  'use strict';
+
+  // ===== CONFIG =====
+  var SUPABASE_URL = 'https://mugkzkrbwgfpsrtnicsv.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im11Z2t6a3Jid2dmcHNydG5pY3N2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODM4MDA2MDUsImV4cCI6MjA5OTM3NjYwNX0.IKYnEU2iuzAL6EDSU-qxMgwY2pklp6PbuibwTBuEldw';
+  var ORIGINAL_PRICE = 999000;
+  var PROMO_PRICE = 699000;
+  var VAT_RATE = 0.08;
+
+  var sb = null;
+  if (window.supabase && window.supabase.createClient) {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
+
+  // ===== ANALYTICS HELPER (mục 12) — không bao giờ để lỗi analytics làm hỏng trang =====
+  function track(eventName, params){
+    params = params || {};
+    try {
+      if (window.dataLayer) { window.dataLayer.push(Object.assign({event: eventName}, params)); }
+      if (window.gtag) { window.gtag('event', eventName, params); }
+      if (window.fbq) { window.fbq('trackCustom', eventName, params); }
+      if (window.ttq && window.ttq.track) { window.ttq.track(eventName, params); }
+    } catch(e){}
+  }
+  window.nthpTrack = track;
+
+  // ===== UTM / MARKETING CAPTURE =====
+  function getUtmData(){
+    var params = new URLSearchParams(window.location.search);
+    var isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+    return {
+      landing_page_url: window.location.href,
+      referrer: document.referrer || null,
+      utm_source: params.get('utm_source'),
+      utm_medium: params.get('utm_medium'),
+      utm_campaign: params.get('utm_campaign'),
+      utm_content: params.get('utm_content'),
+      utm_term: params.get('utm_term'),
+      fbclid: params.get('fbclid'),
+      ttclid: params.get('ttclid'),
+      gclid: params.get('gclid'),
+      device_type: isMobile ? 'mobile' : 'desktop'
+    };
+  }
+  var utmData = getUtmData();
+
+  track('page_view', {page_path: window.location.pathname, utm_source: utmData.utm_source});
+  var scrollFired = {25:false,50:false,75:false,100:false};
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var denom = h.scrollHeight - h.clientHeight;
+    var pct = denom > 0 ? Math.round((h.scrollTop / denom) * 100) : 0;
+    [25,50,75,100].forEach(function(mark){
+      if (pct >= mark && !scrollFired[mark]){
+        scrollFired[mark] = true;
+        track('scroll_' + mark, {page_path: window.location.pathname});
+      }
+    });
+  }, {passive:true});
+
+  document.querySelectorAll('a[href^="https://zalo.me"]').forEach(function(a){
+    a.addEventListener('click', function(){ track('click_zalo', {page_path: location.pathname}); });
+  });
+  document.querySelectorAll('a[href^="tel:"]').forEach(function(a){
+    a.addEventListener('click', function(){ track('click_hotline', {page_path: location.pathname}); });
+  });
+  var stickyBtn = document.querySelector('#stickyCta .js-open-register');
+  if (stickyBtn) stickyBtn.addEventListener('click', function(){ track('click_sticky_cta', {page_path: location.pathname}); });
+
+  // ===== MODAL STATE =====
+  var overlay = document.getElementById('regModalOverlay');
+  var modalPaused = false;
+  var currentRegistration = null;
+
+  function openModal(){
+    overlay.classList.add('show');
+    overlay.setAttribute('aria-hidden','false');
+    document.body.style.overflow = 'hidden';
+    modalPaused = true;
+    goToStep(1);
+    track('registration_form_open', {utm_source: utmData.utm_source});
+  }
+  function closeModal(){
+    overlay.classList.remove('show');
+    overlay.setAttribute('aria-hidden','true');
+    document.body.style.overflow = '';
+    modalPaused = false;
+  }
+  document.querySelectorAll('.js-open-register').forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      openModal();
+      track('click_primary_cta', {page_path: location.pathname});
+    });
+  });
+  document.getElementById('regModalClose').addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e){ if (e.target === overlay) closeModal(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && overlay.classList.contains('show')) closeModal(); });
+
+  function goToStep(n){
+    document.querySelectorAll('.reg-step').forEach(function(panel){
+      panel.hidden = panel.getAttribute('data-step-panel') != String(n);
+    });
+    document.querySelectorAll('.step-dot').forEach(function(dot){
+      var s = parseInt(dot.getAttribute('data-step'),10);
+      dot.classList.toggle('active', s === n);
+      dot.classList.toggle('done', s < n);
+    });
+    document.getElementById('regStepsIndicator').style.display = (n === 'privacy') ? 'none' : 'flex';
+    overlay.querySelector('.reg-modal').scrollTop = 0;
+  }
+  document.getElementById('regPrivacyLink').addEventListener('click', function(){ goToStep('privacy'); });
+  document.getElementById('regPrivacyBack').addEventListener('click', function(){ goToStep(1); });
+
+  // ===== VALIDATION =====
+  function isValidVNPhone(v){ return /^(0|\+84)(3|5|7|8|9)[0-9]{8}$/.test(v.replace(/[\s.-]/g,'')); }
+  function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  function showError(el, msg){ el.textContent = msg; el.hidden = false; }
+  function hideError(el){ el.hidden = true; el.textContent = ''; }
+
+  // ===== STEP 1: SUBMIT REGISTRATION =====
+  var regForm = document.getElementById('regForm');
+  var regSubmitting = false;
+  regForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (regSubmitting) return;
+    var errEl = document.getElementById('regFormError');
+    hideError(errEl);
+
+    var fd = new FormData(regForm);
+    var full_name = (fd.get('full_name')||'').trim();
+    var phone = (fd.get('phone')||'').trim();
+    var zalo = (fd.get('zalo')||'').trim();
+    var city = (fd.get('city')||'').trim();
+    var referral_source = fd.get('referral_source');
+    var email = (fd.get('email')||'').trim();
+    var consent = fd.get('consent');
+    var honeypot = fd.get('website');
+
+    if (honeypot) { return; }
+    if (!full_name){ showError(errEl,'Vui lòng nhập họ và tên.'); return; }
+    if (!isValidVNPhone(phone)){ showError(errEl,'Số điện thoại chưa đúng định dạng Việt Nam.'); return; }
+    if (!zalo){ showError(errEl,'Vui lòng nhập số Zalo.'); return; }
+    if (!city){ showError(errEl,'Vui lòng nhập tỉnh/thành phố.'); return; }
+    if (!referral_source){ showError(errEl,'Vui lòng chọn kênh bạn biết đến Workshop.'); return; }
+    if (email && !isValidEmail(email)){ showError(errEl,'Email chưa đúng định dạng.'); return; }
+    if (!consent){ showError(errEl,'Vui lòng đồng ý điều khoản xử lý dữ liệu.'); return; }
+    if (!sb){ showError(errEl,'Hệ thống đăng ký đang bảo trì, vui lòng nhắn Zalo 0888190392 để được hỗ trợ trực tiếp.'); return; }
+
+    regSubmitting = true;
+    var btn = document.getElementById('regSubmitBtn');
+    btn.disabled = true; btn.textContent = 'Đang xử lý...';
+    track('registration_form_start', {utm_source: utmData.utm_source});
+    track('registration_form_submit', {utm_source: utmData.utm_source});
+
+    sb.rpc('submit_registration', {
+      p_full_name: full_name, p_phone: phone, p_zalo: zalo, p_city: city, p_referral_source: referral_source,
+      p_email: email || null,
+      p_facebook_url: (fd.get('facebook_url')||'').trim() || null,
+      p_occupation: (fd.get('occupation')||'').trim() || null,
+      p_note: (fd.get('note')||'').trim() || null,
+      p_show_in_social_proof: !!fd.get('show_in_social_proof'),
+      p_consent: true,
+      p_landing_page_url: utmData.landing_page_url, p_referrer: utmData.referrer,
+      p_utm_source: utmData.utm_source, p_utm_medium: utmData.utm_medium, p_utm_campaign: utmData.utm_campaign,
+      p_utm_content: utmData.utm_content, p_utm_term: utmData.utm_term,
+      p_fbclid: utmData.fbclid, p_ttclid: utmData.ttclid, p_gclid: utmData.gclid,
+      p_device_type: utmData.device_type
+    }).then(function(res){
+      regSubmitting = false;
+      btn.disabled = false; btn.textContent = 'Tiếp tục giữ vé';
+      if (res.error || !res.data || !res.data.length){
+        showError(errEl, 'Có lỗi xảy ra, vui lòng thử lại hoặc nhắn Zalo 0888190392.');
+        return;
+      }
+      var row = res.data[0];
+      currentRegistration = {
+        registration_id: row.registration_id,
+        registration_code: row.registration_code,
+        full_name: full_name, phone: phone
+      };
+      track('registration_success', {registration_code: currentRegistration.registration_code, utm_source: utmData.utm_source, ticket_price: PROMO_PRICE});
+      fillPaymentStep();
+      goToStep(2);
+      track('payment_info_view', {registration_code: currentRegistration.registration_code});
+    }).catch(function(){
+      regSubmitting = false;
+      btn.disabled = false; btn.textContent = 'Tiếp tục giữ vé';
+      showError(errEl, 'Không kết nối được hệ thống, vui lòng thử lại hoặc nhắn Zalo 0888190392.');
+    });
+  });
+
+  function fillPaymentStep(){
+    document.getElementById('regCodeDisplay').textContent = currentRegistration.registration_code;
+    var content = currentRegistration.registration_code + ' ' + currentRegistration.phone;
+    document.getElementById('regTransferContent').textContent = content;
+    document.getElementById('regCodeReadonly').value = currentRegistration.registration_code;
+
+    var sourceQr = document.querySelector('.reg-locked-preview-hide .qr-wrap img');
+    var qrWrap = document.getElementById('regQrWrap');
+    qrWrap.innerHTML = '';
+    if (sourceQr){
+      var img = document.createElement('img');
+      img.src = sourceQr.getAttribute('src'); img.alt = 'QR chuyển khoản';
+      img.style.cssText = 'width:170px;height:170px;border-radius:14px;border:1px solid var(--border);object-fit:contain;background:#fff;display:block;margin:0 auto;';
+      qrWrap.appendChild(img);
+    }
+    var note = document.createElement('p');
+    note.style.cssText = 'text-align:center;font-size:12.5px;color:var(--text-secondary);margin-top:10px;';
+    note.textContent = 'Quét mã QR hoặc chuyển khoản thủ công theo thông tin trên. Nội dung CK: ' + content;
+    qrWrap.appendChild(note);
+  }
+
+  function flashCopied(btn){
+    var old = btn.textContent; btn.textContent = 'Đã sao chép';
+    setTimeout(function(){ btn.textContent = old; }, 1500);
+  }
+  document.getElementById('regCopyStk').addEventListener('click', function(){
+    navigator.clipboard.writeText('193399333').then(function(){
+      track('copy_bank_account', {registration_code: currentRegistration && currentRegistration.registration_code});
+      flashCopied(document.getElementById('regCopyStk'));
+    });
+  });
+  document.getElementById('regCopyContent').addEventListener('click', function(){
+    var text = document.getElementById('regTransferContent').textContent;
+    navigator.clipboard.writeText(text).then(function(){
+      track('copy_transfer_content', {registration_code: currentRegistration && currentRegistration.registration_code});
+      flashCopied(document.getElementById('regCopyContent'));
+    });
+  });
+
+  document.getElementById('regGoToConfirm').addEventListener('click', function(){
+    goToStep(3);
+    track('click_payment_confirm', {registration_code: currentRegistration && currentRegistration.registration_code});
+  });
+
+  document.getElementById('regReceipt').addEventListener('change', function(e){
+    var file = e.target.files[0];
+    var preview = document.getElementById('regReceiptPreview');
+    preview.innerHTML = ''; preview.hidden = true;
+    if (!file) return;
+    var allowed = ['image/jpeg','image/jpg','image/png','image/webp','application/pdf'];
+    if (allowed.indexOf(file.type) === -1){
+      showError(document.getElementById('regPaymentError'), 'Chỉ chấp nhận file JPG, PNG, WEBP hoặc PDF.');
+      e.target.value = ''; return;
+    }
+    if (file.size > 5*1024*1024){
+      showError(document.getElementById('regPaymentError'), 'File tối đa 5MB.');
+      e.target.value = ''; return;
+    }
+    hideError(document.getElementById('regPaymentError'));
+    track('receipt_upload_start', {registration_code: currentRegistration && currentRegistration.registration_code});
+    preview.hidden = false;
+    if (file.type === 'application/pdf'){
+      preview.textContent = '📄 ' + file.name;
+    } else {
+      var img = document.createElement('img');
+      img.src = URL.createObjectURL(file);
+      var span = document.createElement('span'); span.textContent = file.name;
+      preview.appendChild(img); preview.appendChild(span);
+    }
+  });
+
+  // ===== STEP 3: SUBMIT PAYMENT CONFIRMATION =====
+  var regPaymentForm = document.getElementById('regPaymentForm');
+  var paySubmitting = false;
+  regPaymentForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    if (paySubmitting) return;
+    var errEl = document.getElementById('regPaymentError');
+    hideError(errEl);
+    if (!currentRegistration){ showError(errEl,'Phiên đăng ký đã hết hạn, vui lòng thử lại từ đầu.'); return; }
+
+    var fd = new FormData(regPaymentForm);
+    var payer_name = (fd.get('payer_name')||'').trim();
+    var payer_bank = (fd.get('payer_bank')||'').trim();
+    var transfer_time = fd.get('transfer_time');
+    var fileInput = document.getElementById('regReceipt');
+    var file = fileInput.files[0];
+
+    if (!payer_name){ showError(errEl,'Vui lòng nhập tên người chuyển khoản.'); return; }
+    if (!payer_bank){ showError(errEl,'Vui lòng nhập ngân hàng chuyển khoản.'); return; }
+    if (!transfer_time){ showError(errEl,'Vui lòng chọn thời gian chuyển khoản.'); return; }
+    if (!file){ showError(errEl,'Vui lòng tải ảnh biên lai chuyển khoản.'); return; }
+
+    paySubmitting = true;
+    var btn = document.getElementById('regPaymentSubmitBtn');
+    btn.disabled = true; btn.textContent = 'Đang gửi...';
+
+    var ext = (file.name.split('.').pop()||'jpg').toLowerCase();
+    var path = currentRegistration.registration_code + '/' + Date.now() + '.' + ext;
+
+    sb.storage.from('receipts').upload(path, file).then(function(uploadRes){
+      if (uploadRes.error) { throw uploadRes.error; }
+      track('receipt_upload_success', {registration_code: currentRegistration.registration_code});
+      return sb.rpc('submit_payment_confirmation', {
+        p_registration_id: currentRegistration.registration_id,
+        p_registration_code: currentRegistration.registration_code,
+        p_payer_name: payer_name, p_payer_bank: payer_bank,
+        p_transfer_time: new Date(transfer_time).toISOString(),
+        p_receipt_file_url: path,
+        p_payment_note: (fd.get('payment_note')||'').trim() || null
+      });
+    }).then(function(rpcRes){
+      paySubmitting = false;
+      btn.disabled = false; btn.textContent = 'Gửi xác nhận';
+      if (rpcRes.error){ throw rpcRes.error; }
+      track('payment_submitted', {registration_code: currentRegistration.registration_code, ticket_price: PROMO_PRICE, utm_source: utmData.utm_source});
+      document.getElementById('regThanksCode').textContent = currentRegistration.registration_code;
+      goToStep(4);
+      track('thank_you_page_view', {registration_code: currentRegistration.registration_code});
+      refreshTicketCounter();
+    }).catch(function(){
+      paySubmitting = false;
+      btn.disabled = false; btn.textContent = 'Gửi xác nhận';
+      showError(errEl, 'Không gửi được, vui lòng thử lại hoặc nhắn Zalo 0888190392 kèm ảnh biên lai.');
+    });
+  });
+
+  document.getElementById('regBackHome').addEventListener('click', function(){
+    closeModal();
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // ===== TICKET COUNTER (mục 13) =====
+  function refreshTicketCounter(){
+    if (!sb) return;
+    sb.from('promo_ticket_stats').select('*').single().then(function(res){
+      if (res.error || !res.data) return;
+      var remaining = res.data.remaining_count;
+      var noteEls = document.querySelectorAll('#ticketCounterNote');
+      if (remaining <= 0){
+        document.querySelectorAll('.promo-badge').forEach(function(b){ b.style.display = 'none'; });
+        noteEls.forEach(function(n){ n.textContent = 'Đã hết vé ưu đãi — giá hiện tại 999.000đ/người, đã bao gồm 8% VAT'; });
+      } else if (remaining <= 15) {
+        noteEls.forEach(function(n){ n.textContent = 'Còn ' + remaining + '/50 vé ưu đãi · 699.000đ/người · đã bao gồm 8% VAT'; });
+      }
+    }).catch(function(){});
+  }
+  refreshTicketCounter();
+
+  // ===== SOCIAL PROOF POPUP (mục 5) =====
+  var shownIds = [];
+  function escapeHtml(s){ var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+  function scheduleNextToast(){
+    var gap = 25000 + Math.random()*20000;
+    setTimeout(pickAndShowToast, gap);
+  }
+  function pickAndShowToast(){
+    if (!sb || modalPaused) { scheduleNextToast(); return; }
+    sb.from('public_social_proof').select('*').then(function(res){
+      if (res.error || !res.data || !res.data.length) { scheduleNextToast(); return; }
+      var candidates = res.data.filter(function(r){ return shownIds.indexOf(r.registration_id) === -1; });
+      if (!candidates.length) { shownIds = []; candidates = res.data; }
+      var pick = candidates[Math.floor(Math.random()*candidates.length)];
+      shownIds.push(pick.registration_id);
+      showToast(pick);
+    }).catch(function(){ scheduleNextToast(); });
+  }
+  function showToast(row){
+    if (modalPaused) { scheduleNextToast(); return; }
+    var toast = document.getElementById('socialProofToast');
+    var textEl = document.getElementById('socialProofText');
+    var cityText = row.city ? (escapeHtml(row.city) + ' · ') : '';
+    textEl.innerHTML = '<b>' + escapeHtml(row.display_name) + '</b> vừa đăng ký Workshop<span class="meta">' + cityText + 'vài phút trước</span>';
+    toast.classList.add('show');
+    var hideAfter = 5000 + Math.random()*2000;
+    setTimeout(function(){ toast.classList.remove('show'); scheduleNextToast(); }, hideAfter);
+  }
+  document.getElementById('socialProofClose').addEventListener('click', function(){
+    document.getElementById('socialProofToast').classList.remove('show');
+  });
+  var firstDelay = 8000 + Math.random()*7000;
+  setTimeout(pickAndShowToast, firstDelay);
+
+})();
+</script>
 </body>
 </html>
