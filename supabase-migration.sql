@@ -109,30 +109,97 @@ order by created_at desc
 limit 20;
 
 -- ============================================================
--- 6. ROW LEVEL SECURITY — bắt buộc để anon key an toàn ở frontend
+-- 6. ROW LEVEL SECURITY — khoá hoàn toàn bảng gốc với anon.
+--    KHÔNG tạo bất kỳ policy INSERT/UPDATE/SELECT trực tiếp nào cho anon.
+--    Mọi thao tác ghi đi qua 2 hàm SECURITY DEFINER bên dưới — an toàn hơn
+--    nhiều so với việc dùng USING(true) trên UPDATE (điều đó sẽ cho phép
+--    bất kỳ ai sửa BẤT KỲ đăng ký nào, không riêng gì đăng ký của họ).
 -- ============================================================
 alter table registrations enable row level security;
+-- Không có policy nào cho anon => mặc định DENY toàn bộ SELECT/INSERT/UPDATE trực tiếp.
+-- Admin xem toàn bộ qua Supabase Dashboard (Table Editor dùng service_role, tự bypass RLS).
 
--- Cho phép khách (anon) TẠO đăng ký mới — nhưng không được đọc/sửa của người khác
-create policy "anon_can_insert_registration"
-  on registrations for insert
-  to anon
-  with check (true);
-
--- Cho phép khách cập nhật CHÍNH đăng ký của mình để xác nhận chuyển khoản
--- (giới hạn: chỉ được set các cột liên quan thanh toán, không tự sửa payment_status thành confirmed)
-create policy "anon_can_submit_own_payment_info"
-  on registrations for update
-  to anon
-  using (true)
-  with check (payment_status in ('awaiting_payment','payment_submitted'));
-
--- KHÔNG tạo policy SELECT cho anon => khách không đọc được bảng gốc (bảo vệ dữ liệu người khác)
--- Admin xem toàn bộ qua Supabase Dashboard (dùng service_role, tự động bypass RLS)
-
--- Cho phép anon đọc 2 view an toàn ở trên
 grant select on public_social_proof to anon;
 grant select on promo_ticket_stats to anon;
+
+-- ------------------------------------------------------------
+-- 6a. RPC: tạo đăng ký mới (thay cho INSERT trực tiếp)
+-- ------------------------------------------------------------
+create or replace function submit_registration(
+  p_full_name text, p_phone text, p_zalo text, p_city text, p_referral_source text,
+  p_email text default null, p_facebook_url text default null,
+  p_occupation text default null, p_note text default null,
+  p_show_in_social_proof boolean default false, p_consent boolean default false,
+  p_landing_page_url text default null, p_referrer text default null,
+  p_utm_source text default null, p_utm_medium text default null, p_utm_campaign text default null,
+  p_utm_content text default null, p_utm_term text default null,
+  p_fbclid text default null, p_ttclid text default null, p_gclid text default null,
+  p_device_type text default null
+) returns table(registration_id uuid, registration_code text)
+language plpgsql security definer set search_path = public as $$
+declare
+  v_id uuid; v_code text;
+begin
+  if p_consent is not true then raise exception 'consent_required'; end if;
+  if p_full_name is null or trim(p_full_name) = '' then raise exception 'full_name_required'; end if;
+  if p_phone is null or trim(p_phone) = '' then raise exception 'phone_required'; end if;
+
+  insert into registrations (
+    full_name, phone, zalo, city, referral_source, email, facebook_url, occupation, note,
+    show_in_social_proof, consent_at,
+    landing_page_url, referrer, utm_source, utm_medium, utm_campaign, utm_content, utm_term,
+    fbclid, ttclid, gclid, device_type, payment_status
+  ) values (
+    trim(p_full_name), trim(p_phone), trim(p_zalo), trim(p_city), p_referral_source,
+    nullif(trim(p_email),''), nullif(trim(p_facebook_url),''), nullif(trim(p_occupation),''), nullif(trim(p_note),''),
+    coalesce(p_show_in_social_proof,false), now(),
+    p_landing_page_url, p_referrer, p_utm_source, p_utm_medium, p_utm_campaign, p_utm_content, p_utm_term,
+    p_fbclid, p_ttclid, p_gclid, p_device_type, 'awaiting_payment'
+  ) returning registrations.registration_id, registrations.registration_code into v_id, v_code;
+
+  return query select v_id, v_code;
+end;
+$$;
+
+revoke all on function submit_registration from public;
+grant execute on function submit_registration to anon;
+
+-- ------------------------------------------------------------
+-- 6b. RPC: gửi xác nhận chuyển khoản (thay cho UPDATE trực tiếp)
+--     Bắt buộc biết CẢ registration_id (uuid ngẫu nhiên) LẪN registration_code
+--     — 2 giá trị này chỉ khách vừa đăng ký mới biết, đóng vai trò "mã xác thực
+--     sở hữu" mà không cần hệ thống đăng nhập.
+-- ------------------------------------------------------------
+create or replace function submit_payment_confirmation(
+  p_registration_id uuid, p_registration_code text,
+  p_payer_name text, p_payer_bank text, p_transfer_time timestamptz,
+  p_receipt_file_url text, p_payment_note text default null
+) returns table(ok boolean)
+language plpgsql security definer set search_path = public as $$
+declare v_found int;
+begin
+  update registrations
+  set payer_name = trim(p_payer_name),
+      payer_bank = trim(p_payer_bank),
+      transfer_time = p_transfer_time,
+      receipt_file_url = p_receipt_file_url,
+      note = case when p_payment_note is not null and trim(p_payment_note) <> ''
+                  then coalesce(note || ' | ', '') || trim(p_payment_note)
+                  else note end,
+      payment_status = 'payment_submitted'
+  where registration_id = p_registration_id
+    and registration_code = p_registration_code
+    and payment_status in ('awaiting_payment','payment_submitted');
+
+  get diagnostics v_found = row_count;
+  if v_found = 0 then raise exception 'registration_not_found_or_invalid'; end if;
+
+  return query select true;
+end;
+$$;
+
+revoke all on function submit_payment_confirmation from public;
+grant execute on function submit_payment_confirmation to anon;
 
 -- ============================================================
 -- 7. STORAGE — bucket riêng tư cho ảnh biên lai
