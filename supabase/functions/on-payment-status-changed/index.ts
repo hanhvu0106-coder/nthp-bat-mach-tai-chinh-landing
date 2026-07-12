@@ -3,7 +3,7 @@
 // email trùng khi các trường khác được cập nhật. Idempotent qua email_logs.
 
 import { getServiceClient, claimEmailLog, markEmailLogResult, formatVN, formatVND } from "../_shared/db.ts";
-import { sendEmail, parseEmailList } from "../_shared/resend.ts";
+import { sendEmail, parseEmailList } from "../_shared/smtp.ts";
 import {
   ownerPaymentSubmittedEmail,
   p1PaymentConfirmedEmail,

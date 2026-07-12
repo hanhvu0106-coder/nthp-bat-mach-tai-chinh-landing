@@ -3,7 +3,7 @@
 // Idempotent qua email_logs (unique registration_id+email_code) — gọi lại nhiều lần vẫn an toàn.
 
 import { getServiceClient, claimEmailLog, markEmailLogResult, formatVN } from "../_shared/db.ts";
-import { sendEmail, parseEmailList } from "../_shared/resend.ts";
+import { sendEmail, parseEmailList } from "../_shared/smtp.ts";
 import { u1GiftEmail, ownerNewLeadEmail } from "../_shared/templates.ts";
 
 const STATUS_LABELS: Record<string, string> = {
