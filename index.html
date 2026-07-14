@@ -434,6 +434,8 @@
   .reg-error{background:var(--bg-danger,#FCEBEB);border:1px solid rgba(226,75,74,0.4);color:#A32D2D;font-size:13.5px;padding:10px 14px;border-radius:10px;margin-bottom:14px;}
   .btn-block{width:100%;}
   .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none !important;}
+  .reg-email-hint{font-size:12.5px;color:#B8860B;margin:6px 0 0;line-height:1.4;}
+  .reg-post-cta-note{font-size:12.5px;color:var(--text-secondary);text-align:center;margin:10px 0 0;}
 
   .reg-code-box{
     text-align:center;background:var(--silver);border-radius:14px;padding:16px;margin-bottom:20px;
@@ -979,7 +981,7 @@
     <!-- STEP 1 — Registration form -->
     <div class="reg-step" data-step-panel="1">
       <h3 id="regModalTitle">Đăng ký nhận quà và giữ chỗ Workshop</h3>
-      <p class="reg-step-sub">Điền thông tin để nhận ngay quà tặng từ Nấc Thang Hạnh Phúc. Bạn chưa cần thanh toán ở bước này.</p>
+      <p class="reg-step-sub">Bạn chưa cần thanh toán ở bước này. Hãy để lại thông tin để nhận quà miễn phí và mã giữ chỗ Workshop.</p>
       <ul class="reg-gift-bullets">
         <li>Nhận quà miễn phí ngay sau khi đăng ký</li>
         <li>Nhận mã giữ chỗ Workshop</li>
@@ -987,32 +989,29 @@
         <li>Ekip sẽ gửi thông tin và hỗ trợ qua email/Zalo</li>
       </ul>
       <form id="regForm" novalidate>
-        <div class="reg-field"><label for="regFullName">Họ và tên *</label><input id="regFullName" type="text" name="full_name" autocomplete="name" required aria-required="true"></div>
-        <div class="reg-field"><label for="regPhone">Số điện thoại *</label><input id="regPhone" type="tel" name="phone" autocomplete="tel" required aria-required="true" placeholder="09xxxxxxxx"></div>
-        <div class="reg-field"><label for="regZalo">Số Zalo *</label><input id="regZalo" type="text" name="zalo" required aria-required="true" placeholder="Trùng SĐT hoặc số Zalo khác"></div>
-        <div class="reg-field"><label for="regCity">Tỉnh/thành phố *</label><input id="regCity" type="text" name="city" autocomplete="address-level1" required aria-required="true"></div>
-        <div class="reg-field"><label for="regReferral">Bạn biết đến Workshop qua đâu? *</label>
-          <select id="regReferral" name="referral_source" required aria-required="true">
+        <div class="reg-field"><label for="regFullName">Họ và tên *</label><input id="regFullName" type="text" name="full_name" autocomplete="name" required aria-required="true" placeholder="Nhập họ và tên của bạn"></div>
+        <div class="reg-field"><label for="regPhone">Số điện thoại dùng Zalo *</label><input id="regPhone" type="tel" name="phone" autocomplete="tel" required aria-required="true" placeholder="Nhập số điện thoại/Zalo"></div>
+        <div class="reg-field"><label for="regEmail">Email nhận quà *</label><input id="regEmail" type="email" name="email" autocomplete="email" required aria-required="true" placeholder="Nhập email chính xác để nhận quà">
+          <p class="reg-email-hint" id="regEmailHint" hidden></p>
+        </div>
+        <div class="reg-field"><label for="regReferral">Bạn biết đến Workshop qua đâu? — Không bắt buộc</label>
+          <select id="regReferral" name="referral_source">
             <option value="">Chọn kênh...</option>
-            <option value="tiktok">TikTok</option>
             <option value="facebook">Facebook</option>
-            <option value="youtube">YouTube</option>
+            <option value="tiktok">TikTok</option>
             <option value="zalo">Zalo</option>
+            <option value="youtube">YouTube</option>
             <option value="ban_be_gioi_thieu">Bạn bè giới thiệu</option>
-            <option value="workshop_truoc">Workshop hoặc sự kiện trước</option>
             <option value="google">Google</option>
             <option value="khac">Khác</option>
           </select>
         </div>
-        <div class="reg-field"><label for="regEmail">Email</label><input id="regEmail" type="email" name="email" autocomplete="email"></div>
-        <div class="reg-field"><label for="regFb">Facebook / trang cá nhân</label><input id="regFb" type="text" name="facebook_url"></div>
-        <div class="reg-field"><label for="regJob">Nghề nghiệp</label><input id="regJob" type="text" name="occupation"></div>
-        <div class="reg-field"><label for="regNote">Ghi chú</label><textarea id="regNote" name="note" rows="2"></textarea></div>
         <input type="text" name="website" class="reg-honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label class="reg-checkbox"><input type="checkbox" name="consent" required aria-required="true"><span>Tôi đồng ý để Nấc Thang Hạnh Phúc sử dụng thông tin trên nhằm gửi quà tặng, hỗ trợ đăng ký, xác nhận thanh toán và gửi các nội dung liên quan đến Workshop. Tôi có thể hủy nhận email bất cứ lúc nào. <a href="javascript:void(0)" id="regPrivacyLink">Xem chính sách bảo mật</a></span></label>
         <label class="reg-checkbox"><input type="checkbox" name="show_in_social_proof"><span>Đồng ý hiển thị tên viết tắt (VD: "Nguyễn H.") trên landing page khi vừa đăng ký</span></label>
         <div class="reg-error" id="regFormError" hidden></div>
         <button type="submit" class="btn btn-primary btn-block" id="regSubmitBtn">Nhận quà và giữ chỗ</button>
+        <p class="reg-post-cta-note">Quà tặng và mã đăng ký sẽ được gửi đến email của bạn.</p>
       </form>
     </div>
 
@@ -1021,6 +1020,7 @@
       <div class="reg-thanks-icon">🎁</div>
       <h3 style="text-align:center;">Quà tặng của bạn đã sẵn sàng</h3>
       <p style="font-size:14px;color:var(--text-secondary);text-align:center;">Xin chào <b id="regGiftName">—</b>, quà cũng đã được gửi qua email của bạn.</p>
+      <div class="reg-error" id="regGiftEmailWarning" hidden>Thông tin của bạn đã được ghi nhận nhưng email quà tặng chưa gửi thành công. Vui lòng kiểm tra lại email hoặc liên hệ Zalo 0888 190 392.</div>
       <div class="reg-code-box">Mã đăng ký của bạn<b id="regGiftCode">—</b></div>
       <div class="reg-gift-box">
         <div class="reg-gift-title" id="regGiftTitle">Ebook Bắt Mạch Tài Chính Gia Đình</div>
@@ -1335,12 +1335,35 @@
   // ===== VALIDATION =====
   function isValidVNPhone(v){ return /^(0|\+84)(3|5|7|8|9)[0-9]{8}$/.test(v.replace(/[\s.-]/g,'')); }
   function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+  var COMMON_EMAIL_TYPO_DOMAINS = {
+    'gmial.com':1,'gmai.com':1,'gmail.con':1,'gmial.con':1,'gmaill.com':1,
+    'yaho.com':1,'yahooo.com':1,'yahoo.con':1,
+    'hotmial.com':1,'hotmail.con':1,'hotmial.con':1,
+    'outlok.com':1,'outlook.con':1
+  };
+  function isLikelyTypoEmail(v){
+    var at = v.lastIndexOf('@');
+    if (at === -1) return false;
+    var domain = v.slice(at + 1).toLowerCase();
+    return !!COMMON_EMAIL_TYPO_DOMAINS[domain];
+  }
   function showError(el, msg){ el.textContent = msg; el.hidden = false; }
   function hideError(el){ el.hidden = true; el.textContent = ''; }
 
   // ===== STEP 1: SUBMIT REGISTRATION =====
   var regForm = document.getElementById('regForm');
   var regSubmitting = false;
+  var regEmailInput = document.getElementById('regEmail');
+  var regEmailHint = document.getElementById('regEmailHint');
+  regEmailInput.addEventListener('blur', function(){
+    var v = regEmailInput.value.trim();
+    if (v && isLikelyTypoEmail(v)) {
+      regEmailHint.textContent = 'Email này có thể bị nhập sai. Bạn vui lòng kiểm tra lại để nhận được quà.';
+      regEmailHint.hidden = false;
+    } else {
+      regEmailHint.hidden = true;
+    }
+  });
   regForm.addEventListener('submit', function(e){
     e.preventDefault();
     if (regSubmitting) return;
@@ -1350,20 +1373,16 @@
     var fd = new FormData(regForm);
     var full_name = (fd.get('full_name')||'').trim();
     var phone = (fd.get('phone')||'').trim();
-    var zalo = (fd.get('zalo')||'').trim();
-    var city = (fd.get('city')||'').trim();
-    var referral_source = fd.get('referral_source');
-    var email = (fd.get('email')||'').trim();
+    var referral_source = fd.get('referral_source') || null;
+    var email = (fd.get('email')||'').trim().toLowerCase();
     var consent = fd.get('consent');
     var honeypot = fd.get('website');
 
     if (honeypot) { return; }
     if (!full_name){ showError(errEl,'Vui lòng nhập họ và tên.'); return; }
-    if (!isValidVNPhone(phone)){ showError(errEl,'Số điện thoại chưa đúng định dạng Việt Nam.'); return; }
-    if (!zalo){ showError(errEl,'Vui lòng nhập số Zalo.'); return; }
-    if (!city){ showError(errEl,'Vui lòng nhập tỉnh/thành phố.'); return; }
-    if (!referral_source){ showError(errEl,'Vui lòng chọn kênh bạn biết đến Workshop.'); return; }
-    if (email && !isValidEmail(email)){ showError(errEl,'Email chưa đúng định dạng.'); return; }
+    if (!isValidVNPhone(phone)){ showError(errEl,'Số điện thoại/Zalo chưa đúng định dạng Việt Nam.'); return; }
+    if (!email){ showError(errEl,'Vui lòng nhập email để nhận quà.'); return; }
+    if (!isValidEmail(email)){ showError(errEl,'Email chưa đúng định dạng.'); return; }
     if (!consent){ showError(errEl,'Vui lòng đồng ý điều khoản xử lý dữ liệu.'); return; }
     if (!sb){ showError(errEl,'Hệ thống đăng ký đang bảo trì, vui lòng nhắn Zalo 0888190392 để được hỗ trợ trực tiếp.'); return; }
 
@@ -1375,11 +1394,8 @@
 
     var touch = getTouchData();
     sb.rpc('submit_registration', {
-      p_full_name: full_name, p_phone: phone, p_zalo: zalo, p_city: city, p_referral_source: referral_source,
-      p_email: email || null,
-      p_facebook_url: (fd.get('facebook_url')||'').trim() || null,
-      p_occupation: (fd.get('occupation')||'').trim() || null,
-      p_note: (fd.get('note')||'').trim() || null,
+      p_full_name: full_name, p_phone: phone, p_zalo: phone, p_city: null, p_referral_source: referral_source,
+      p_email: email,
       p_show_in_social_proof: !!fd.get('show_in_social_proof'),
       p_consent: true,
       p_email_opt_in: true,
@@ -1428,6 +1444,26 @@
     document.getElementById('regGiftDownload').textContent = (LEAD_MAGNET_TYPE === 'quiz') ? 'Làm bài test ngay' : 'Tải quà ngay';
     document.getElementById('regGiftActions').hidden = false;
     document.getElementById('regGiftLaterNote').hidden = true;
+    document.getElementById('regGiftEmailWarning').hidden = true;
+    checkGiftEmailStatus();
+  }
+
+  // Email quà được gửi bất đồng bộ qua Database Webhook, không đồng bộ với lúc
+  // submit form thành công — chờ một nhịp rồi kiểm tra, KHÔNG làm mất Lead nếu lỗi.
+  function checkGiftEmailStatus(){
+    if (!sb || !currentRegistration) return;
+    setTimeout(function(){
+      sb.rpc('get_email_status', {
+        p_registration_id: currentRegistration.registration_id,
+        p_payment_token: currentRegistration.payment_token,
+        p_email_code: 'U1_gift'
+      }).then(function(res){
+        if (res.error || !res.data || !res.data.length) return;
+        if (res.data[0].status === 'failed') {
+          document.getElementById('regGiftEmailWarning').hidden = false;
+        }
+      }).catch(function(){});
+    }, 3000);
   }
   document.getElementById('regGiftDownload').addEventListener('click', function(){
     track('gift_download_click', {registration_code: currentRegistration && currentRegistration.registration_code});

@@ -75,17 +75,13 @@ Deno.serve(async (req) => {
           const tpl = ownerNewLeadEmail({
             fullName: record.full_name,
             phone: record.phone,
-            zalo: record.zalo,
             email: record.email,
-            city: record.city,
-            occupation: record.occupation,
             referralSource: record.referral_source,
             utmSource: record.utm_source,
             utmMedium: record.utm_medium,
             utmCampaign: record.utm_campaign,
             refCode: record.ref_code,
             registrationCode: record.registration_code,
-            giftTitle,
             statusLabel: STATUS_LABELS[record.payment_status] ?? record.payment_status,
             createdAtVN: formatVN(record.created_at),
             adminUrl: `https://supabase.com/dashboard/project/${Deno.env.get("NTHP_PROJECT_REF") ?? ""}/editor`,
@@ -104,11 +100,17 @@ Deno.serve(async (req) => {
       results.owner_new_lead = "skipped_no_recipients_or_disabled";
     }
 
-    // 3) Nếu email quà đã gửi thành công, đẩy trạng thái new_lead -> lead_gift_sent
+    // 3) Cập nhật trạng thái theo kết quả gửi email quà — Lead KHÔNG bao giờ bị mất dù email lỗi
     if (results.u1_gift === "sent" || results.u1_gift === "skipped_no_email_or_disabled") {
       await sb
         .from("registrations")
         .update({ payment_status: "lead_gift_sent", lead_magnet_sent_at: new Date().toISOString() })
+        .eq("registration_id", record.registration_id)
+        .eq("payment_status", "new_lead");
+    } else if (results.u1_gift === "failed") {
+      await sb
+        .from("registrations")
+        .update({ payment_status: "gift_email_failed" })
         .eq("registration_id", record.registration_id)
         .eq("payment_status", "new_lead");
     }

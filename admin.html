@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Quản trị Lead — Nấc Thang Hạnh Phúc</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#071A2F; --cyan:#18C6D9; --cyan-dark:#0EA0B0; --white:#F8FBFC; --silver:#E7EEF2;
+    --ink:#1A2733; --text-secondary:#5B6B78; --border:#E2E8EC; --serif:'Playfair Display',Georgia,serif; --sans:'Inter',sans-serif;
+    --danger:#E24B4A;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--sans);background:var(--silver);color:var(--ink);min-height:100vh;padding:24px;}
+  .wrap{max-width:1100px;margin:0 auto;}
+  h1{font-family:var(--serif);font-size:24px;color:var(--navy);margin:0 0 20px;}
+  .gate{max-width:420px;margin:80px auto;background:#fff;border-radius:16px;padding:32px;box-shadow:0 20px 50px rgba(7,26,47,0.12);text-align:center;}
+  .gate input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:14px;margin:14px 0;}
+  .gate button, .toolbar button{background:var(--cyan);color:var(--navy);border:none;font-weight:700;padding:11px 22px;border-radius:999px;cursor:pointer;font-size:14px;}
+  .gate button:hover, .toolbar button:hover{opacity:0.9;}
+  .toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .toolbar span{font-size:13px;color:var(--text-secondary);}
+  table{width:100%;border-collapse:collapse;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px rgba(7,26,47,0.06);}
+  th,td{padding:11px 14px;text-align:left;font-size:13.5px;border-bottom:1px solid var(--border);}
+  th{background:var(--navy);color:#fff;font-weight:600;position:sticky;top:0;}
+  tr:last-child td{border-bottom:none;}
+  .status-pill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:600;background:var(--silver);color:var(--text-secondary);}
+  .status-pill.failed{background:rgba(226,75,74,0.12);color:var(--danger);}
+  .status-pill.confirmed{background:rgba(24,198,217,0.14);color:var(--cyan-dark);}
+  .resend-btn{background:var(--danger);color:#fff;border:none;padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:700;cursor:pointer;}
+  .resend-btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .empty{text-align:center;padding:40px;color:var(--text-secondary);}
+  .error-box{background:#FCEBEB;border:1px solid rgba(226,75,74,0.4);color:#A32D2D;padding:10px 14px;border-radius:10px;font-size:13.5px;margin-bottom:14px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="gate" class="gate">
+    <h1 style="text-align:center;">Quản trị Lead</h1>
+    <p style="font-size:13.5px;color:var(--text-secondary);">Nhập mã quản trị để xem danh sách Lead</p>
+    <input type="password" id="adminToken" placeholder="Mã quản trị">
+    <div id="gateError" class="error-box" style="display:none;"></div>
+    <button type="button" id="gateSubmit">Vào trang quản trị</button>
+  </div>
+
+  <div id="dashboard" style="display:none;">
+    <h1>Danh sách Lead</h1>
+    <div class="toolbar">
+      <span id="leadCount"></span>
+      <button type="button" id="refreshBtn">Làm mới</button>
+    </div>
+    <div id="dashError" class="error-box" style="display:none;"></div>
+    <table>
+      <thead>
+        <tr><th>Thời gian</th><th>Mã đăng ký</th><th>Họ tên</th><th>SĐT/Zalo</th><th>Email</th><th>Nguồn</th><th>Trạng thái</th><th></th></tr>
+      </thead>
+      <tbody id="leadRows"></tbody>
+    </table>
+    <div id="emptyState" class="empty" style="display:none;">Chưa có Lead nào.</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var FUNCTIONS_BASE = 'https://mugkzkrbwgfpsrtnicsv.supabase.co/functions/v1';
+
+  function escapeHtml(s){ var d = document.createElement('div'); d.textContent = s || ''; return d.innerHTML; }
+
+  var gate = document.getElementById('gate');
+  var dashboard = document.getElementById('dashboard');
+  var tokenInput = document.getElementById('adminToken');
+  var gateError = document.getElementById('gateError');
+
+  function callApi(action, extra){
+    var token = sessionStorage.getItem('nthp_admin_token');
+    var body = Object.assign({action: action}, extra || {});
+    return fetch(FUNCTIONS_BASE + '/admin-api', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json', 'Authorization':'Bearer ' + token},
+      body: JSON.stringify(body)
+    }).then(function(res){ return res.json().then(function(data){ return {status: res.status, data: data}; }); });
+  }
+
+  function showDashboard(){
+    gate.style.display = 'none';
+    dashboard.style.display = 'block';
+    loadLeads();
+  }
+
+  document.getElementById('gateSubmit').addEventListener('click', function(){
+    var token = tokenInput.value.trim();
+    if (!token) return;
+    sessionStorage.setItem('nthp_admin_token', token);
+    gateError.style.display = 'none';
+    callApi('list_leads').then(function(r){
+      if (r.status === 401) {
+        gateError.textContent = 'Mã quản trị không đúng.';
+        gateError.style.display = 'block';
+        sessionStorage.removeItem('nthp_admin_token');
+        return;
+      }
+      showDashboard();
+    });
+  });
+
+  var existingToken = sessionStorage.getItem('nthp_admin_token');
+  if (existingToken) { tokenInput.value = existingToken; showDashboard(); }
+
+  function statusClass(status){
+    if (status === 'gift_email_failed') return 'failed';
+    if (status === 'payment_confirmed') return 'confirmed';
+    return '';
+  }
+
+  function loadLeads(){
+    var dashError = document.getElementById('dashError');
+    dashError.style.display = 'none';
+    callApi('list_leads').then(function(r){
+      if (r.status !== 200 || !r.data.ok) {
+        dashError.textContent = 'Không tải được danh sách Lead.';
+        dashError.style.display = 'block';
+        return;
+      }
+      renderLeads(r.data.leads);
+    }).catch(function(){
+      dashError.textContent = 'Không kết nối được hệ thống.';
+      dashError.style.display = 'block';
+    });
+  }
+
+  function renderLeads(leads){
+    document.getElementById('leadCount').textContent = leads.length + ' Lead';
+    var tbody = document.getElementById('leadRows');
+    tbody.innerHTML = '';
+    document.getElementById('emptyState').style.display = leads.length ? 'none' : 'block';
+    leads.forEach(function(lead){
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td>' + escapeHtml(lead.created_at_vn) + '</td>' +
+        '<td>' + escapeHtml(lead.registration_code) + '</td>' +
+        '<td>' + escapeHtml(lead.full_name) + '</td>' +
+        '<td>' + escapeHtml(lead.phone) + '</td>' +
+        '<td>' + escapeHtml(lead.email || '(không có)') + '</td>' +
+        '<td>' + escapeHtml(lead.source) + '</td>' +
+        '<td><span class="status-pill ' + statusClass(lead.status) + '">' + escapeHtml(lead.status_label) + '</span></td>' +
+        '<td></td>';
+      if (lead.can_resend) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'resend-btn';
+        btn.textContent = 'Gửi lại email quà tặng';
+        btn.addEventListener('click', function(){
+          btn.disabled = true;
+          btn.textContent = 'Đang gửi...';
+          callApi('resend_gift_email', {registration_id: lead.registration_id}).then(function(r){
+            if (r.status === 200 && r.data.ok) {
+              btn.textContent = 'Đã gửi lại';
+              loadLeads();
+            } else {
+              btn.disabled = false;
+              btn.textContent = 'Gửi lại email quà tặng';
+              alert('Gửi lại thất bại: ' + (r.data.error || 'unknown_error'));
+            }
+          });
+        });
+        tr.lastElementChild.appendChild(btn);
+      }
+      tbody.appendChild(tr);
+    });
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', loadLeads);
+})();
+</script>
+</body>
+</html>

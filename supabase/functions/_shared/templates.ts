@@ -74,7 +74,7 @@ export function u1GiftEmail(p: {
     <p style="text-align:center;margin:24px 0;">
       <a href="${p.paymentUrl}" style="background:transparent;border:1px solid ${BRAND.cyan};color:#0A2B4A;text-decoration:none;font-weight:700;padding:12px 26px;border-radius:999px;display:inline-block;">Giữ vé Workshop với giá ưu đãi</a>
     </p>
-    <p>Ekip Nấc Thang Hạnh Phúc luôn sẵn sàng hỗ trợ qua Zalo nếu bạn cần thêm thông tin.</p>
+    <p>Cần hỗ trợ? Nhắn Zalo hoặc gọi hotline <b>0888 190 392</b>, Ekip Nấc Thang Hạnh Phúc luôn sẵn sàng.</p>
   `;
   return {
     subject: "Quà tặng Bắt Mạch Tài Chính của bạn đã sẵn sàng",
@@ -86,37 +86,29 @@ export function u1GiftEmail(p: {
 export function ownerNewLeadEmail(p: {
   fullName: string;
   phone: string;
-  zalo: string;
   email: string | null;
-  city: string;
-  occupation: string | null;
-  referralSource: string;
+  referralSource: string | null;
   utmSource: string | null;
   utmMedium: string | null;
   utmCampaign: string | null;
   refCode: string | null;
   registrationCode: string;
-  giftTitle: string;
   statusLabel: string;
   createdAtVN: string;
   adminUrl: string;
 }) {
   const rows =
     dataRow("Họ tên", `<b>${escapeHtml(p.fullName)}</b>`) +
-    dataRow("Số điện thoại", escapeHtml(p.phone)) +
-    dataRow("Zalo", escapeHtml(p.zalo)) +
+    dataRow("SĐT/Zalo", escapeHtml(p.phone)) +
     dataRow("Email", escapeHtml(p.email || "(không có)")) +
-    dataRow("Tỉnh/thành", escapeHtml(p.city)) +
-    dataRow("Nghề nghiệp", escapeHtml(p.occupation || "(không có)")) +
     dataRow("Mã đăng ký", `<b>${escapeHtml(p.registrationCode)}</b>`) +
-    dataRow("Nguồn khách tự khai", escapeHtml(p.referralSource)) +
+    dataRow("Thời gian đăng ký", escapeHtml(p.createdAtVN)) +
+    dataRow("Nguồn khách tự khai", escapeHtml(p.referralSource || "(không chọn)")) +
     dataRow("UTM Source", escapeHtml(p.utmSource || "(không có)")) +
     dataRow("UTM Medium", escapeHtml(p.utmMedium || "(không có)")) +
     dataRow("UTM Campaign", escapeHtml(p.utmCampaign || "(không có)")) +
     dataRow("Người giới thiệu", escapeHtml(p.refCode || "(không có)")) +
-    dataRow("Quà đã gửi", escapeHtml(p.giftTitle)) +
-    dataRow("Trạng thái", escapeHtml(p.statusLabel)) +
-    dataRow("Thời gian đăng ký", escapeHtml(p.createdAtVN));
+    dataRow("Trạng thái", escapeHtml(p.statusLabel));
 
   const body = `
     <p style="font-size:16px;font-weight:700;">LEAD MỚI</p>
