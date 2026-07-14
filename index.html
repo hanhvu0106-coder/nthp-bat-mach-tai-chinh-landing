@@ -1468,17 +1468,35 @@
   document.getElementById('regGiftDownload').addEventListener('click', function(){
     track('gift_download_click', {registration_code: currentRegistration && currentRegistration.registration_code});
   });
-  document.getElementById('regGiftPayNow').addEventListener('click', function(){
+  var regGiftPayNowBtn = document.getElementById('regGiftPayNow');
+  var regGiftPayNowLabel = regGiftPayNowBtn.textContent;
+  var payNowOpening = false;
+  regGiftPayNowBtn.addEventListener('click', function(){
+    if (payNowOpening) return;
     if (!currentRegistration || !sb) { goToStep('2'); fillPaymentStep(); return; }
+
+    payNowOpening = true;
+    regGiftPayNowBtn.disabled = true;
+    regGiftPayNowBtn.textContent = 'Đang mở thông tin thanh toán...';
+
+    // sb.rpc(...) trả về một "thenable" riêng của Supabase (chỉ có .then, KHÔNG có
+    // .catch/.finally) — gọi .finally() trực tiếp trên nó sẽ ném lỗi ngay lập tức và
+    // huỷ toàn bộ request trước khi kịp gửi đi. Dùng .then(onSuccess, onError) hai đối
+    // số để đảm bảo LUÔN mở được bước thanh toán dù cập nhật trạng thái có lỗi hay không
+    // — QR/số tài khoản là dữ liệu tĩnh, không phụ thuộc kết quả RPC này.
+    function proceedToPayment(){
+      payNowOpening = false;
+      regGiftPayNowBtn.disabled = false;
+      regGiftPayNowBtn.textContent = regGiftPayNowLabel;
+      fillPaymentStep();
+      goToStep('2');
+      track('payment_info_view', {registration_code: currentRegistration.registration_code});
+    }
     sb.rpc('mark_payment_started', {
       p_registration_id: currentRegistration.registration_id,
       p_registration_code: currentRegistration.registration_code,
       p_payment_token: currentRegistration.payment_token
-    }).finally(function(){
-      fillPaymentStep();
-      goToStep('2');
-      track('payment_info_view', {registration_code: currentRegistration.registration_code});
-    });
+    }).then(proceedToPayment, proceedToPayment);
   });
   document.getElementById('regGiftPayLater').addEventListener('click', function(){
     document.getElementById('regGiftActions').hidden = true;
