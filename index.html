@@ -1497,11 +1497,14 @@
     document.getElementById('regGiftActions').hidden = true;
     document.getElementById('regGiftLaterNote').hidden = false;
     if (currentRegistration && sb) {
+      // sb.rpc(...) là "thenable" lười (lazy) của Supabase — nếu không gọi .then()/.catch()
+      // thì request KHÔNG BAO GIỜ được gửi đi. Đây từng là nguyên nhân trạng thái không
+      // chuyển sang lead_unpaid dù giao diện đã hiển thị đúng.
       sb.rpc('mark_lead_unpaid', {
         p_registration_id: currentRegistration.registration_id,
         p_registration_code: currentRegistration.registration_code,
         p_payment_token: currentRegistration.payment_token
-      });
+      }).then(function(){}, function(e){ console.error('mark_lead_unpaid failed:', e); });
     }
     track('registration_pay_later', {registration_code: currentRegistration && currentRegistration.registration_code});
   });
