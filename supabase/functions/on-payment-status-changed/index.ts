@@ -91,7 +91,7 @@ Deno.serve(async (req) => {
               fullName: record.full_name,
               registrationCode: record.registration_code,
               paymentAmount: formatVND(record.payment_amount),
-              workshopDateLabel: Deno.env.get("WORKSHOP_DATE_LABEL") ?? "14h00 – 17h00, Chủ Nhật ngày 26/7/2027",
+              workshopDateLabel: Deno.env.get("WORKSHOP_DATE_LABEL") ?? "14h00 – 17h00, Chủ Nhật ngày 26/7/2026",
               giftTitle,
               giftUrl,
               unsubscribeUrl,
